@@ -1,0 +1,41 @@
+# Laravel & PHP
+/vendor/
+.env
+.env.*
+.phpunit.result.cache
+.php-cs-fixer.cache
+storage/*.key
+
+# Laravel caches
+bootstrap/cache/*.php
+!bootstrap/cache/.gitignore
+
+# Node & frontend
+/node_modules/
+public/build/
+public/hot
+public/storage
+
+# Vite
+.vite/
+.vite/deps
+vite.config.local.js
+vite.config.js
+# IDE & OS files
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+
+# Mac / Windows
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
+docker-data/
+*.log
+
+# PHPStorm meta
+.phpstorm.meta.php
