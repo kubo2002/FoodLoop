@@ -2,6 +2,18 @@
 
 use Illuminate\Support\Facades\Route;
 
+// docasna homepage
 Route::get('/', function () {
-    return view('welcome');
-});
+    return 'Welcome';
+})->name('home');
+
+// register
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register.show');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+
+// login
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login.show');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+// logout
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
