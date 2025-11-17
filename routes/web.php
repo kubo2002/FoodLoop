@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+
 
 // docasna homepage
 Route::get('/', function () {
@@ -17,3 +19,9 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 // logout
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// lokalizaica stranky sk/en
+Route::get('/lang/{locale}', function ($locale) {
+    session(['locale' => $locale]);
+    return redirect()->back();
+})->name('lang.switch');
