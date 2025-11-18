@@ -1,0 +1,30 @@
+.language-btn {
+    position: relative;
+    padding-left: 34px !important; /* miesto na vlajku */
+}
+
+/* Vlajka pre SK */
+.language-btn[data-lang="sk"]::before {
+    content: "";
+    position: absolute;
+    left: 12px; /* odsadenie od vnútra tlačidla */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 14px;
+    background-image: url("https://flagcdn.com/w20/sk.png");
+    background-size: cover;
+}
+
+/* Vlajka pre EN */
+.language-btn[data-lang="en"]::before {
+    content: "";
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 14px;
+    background-image: url("https://flagcdn.com/w20/gb.png");
+    background-size: cover;
+}
