@@ -7,16 +7,30 @@
 </head>
 <body class="bg-light">
 
+
 <!-- Bootstrap layout -->
-<div class="container mt-5">
+<div class="container mt-5 custom-space">
     <div class="d-flex justify-content-center align-items-center vh-100 bg-light">
         <div class="col-md-5">
+            @php $lang = app()->getLocale(); @endphp
+
+            <div class="d-flex justify-content-center mb-3">
+                <a href="{{ route('lang.switch', 'sk') }}"
+                   class="btn mx-2 {{ $lang == 'sk' ? 'btn-primary' : 'btn-outline-primary' }}">
+                    SK
+                </a>
+                <a href="{{ route('lang.switch', 'en') }}"
+                   class="btn mx-2 {{ $lang == 'en' ? 'btn-primary' : 'btn-outline-primary' }}">
+                    EN
+                </a>
+            </div>
+
 
             <!-- Karta s registracnym formularom -->
-            <div class="card shadow-sm">
+            <div class="card shadow-sm" style="max-width: 400px; margin: auto;">
                 <div class="card-body">
 
-                    <h3 class="text-center mb-4">Create Account</h3>
+                    <h3 class="text-center mb-4">{{ __('messages.register') }}</h3>
 
                     <!-- Zaciatok formulara -->
                     <form method="POST" action="{{ route('register') }}">
@@ -24,7 +38,7 @@
 
                         <!-- Pole Name -->
                         <div class="mb-3">
-                            <label class="form-label">Name</label>
+                            <label class="form-label">{{ __('messages.name') }}</label>
                             <input
                                 type="text"
                                 name="name"
@@ -56,7 +70,7 @@
 
                         <!-- Pole Password -->
                         <div class="mb-3">
-                            <label class="form-label">Password</label>
+                            <label class="form-label">{{ __('messages.password') }}</label>
                             <input
                                 type="password"
                                 name="password"
@@ -71,7 +85,7 @@
 
                         <!-- Potvrdzovacie tlacidlo -->
                         <div class="mb-3">
-                            <label class="form-label">Confirm Password</label>
+                            <label class="form-label">{{ __('messages.confirmPassword') }}</label>
                             <input
                                 type="password"
                                 name="password_confirmation"
@@ -81,14 +95,14 @@
 
                         <!-- Vyber role donor/recipient -->
                         <div class="mb-3">
-                            <label class="form-label">Role</label>
+                            <label class="form-label">{{ __('messages.role') }}</label>
                             <select
                                 name="role"
                                 class="form-select @error('role') is-invalid @enderror"
                             >
-                                <option value="">Select role</option>
-                                <option value="donor">Donor</option>
-                                <option value="recipient">Recipient</option>
+                                <option value="">{{ __('messages.selectRole') }}</option>
+                                <option value="donor">{{ __('messages.donor') }}</option>
+                                <option value="recipient">{{ __('messages.recipient') }}</option>
                             </select>
 
                             <!-- Blade direktiva kontroluje ci existuje po odolsani validaacna chyba pre rolu  -->
@@ -97,11 +111,11 @@
                             @enderror
                         </div>
 
-                        <button class="btn btn-success w-100">Register</button>
+                        <button class="btn btn-success w-100">{{ __('messages.register') }}</button>
 
 
                         <div class="text-center mt-3">
-                            <a href="{{ route('login.show') }}">Already have an account?</a>
+                            <a href="{{ route('login.show') }}">{{ __('messages.alreadyHaveAccount') }}</a>
                         </div>
 
                     </form>

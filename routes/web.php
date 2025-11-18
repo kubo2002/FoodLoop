@@ -20,8 +20,11 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 // logout
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// lokalizaica stranky sk/en
+// prepnutie jazyka stranky
 Route::get('/lang/{locale}', function ($locale) {
     session(['locale' => $locale]);
-    return redirect()->back();
+    session()->save(); // FORCE SAVE
+
+    return back();
+
 })->name('lang.switch');

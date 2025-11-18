@@ -44,7 +44,7 @@
 
                         <!-- Pole password -->
                         <div class="mb-3">
-                            <label class="form-label">Password</label>
+                            <label class="form-label">{{ __('messages.password') }}</label>
                             <input
                                 type="password"
                                 name="password"
@@ -56,10 +56,10 @@
                             @enderror
                         </div>
 
-                        <button class="btn btn-primary w-100">Login</button>
+                        <button class="btn btn-primary w-100">{{ __('messages.login') }}</button>
 
                         <div class="text-center mt-3">
-                            <a href="{{ route('register.show') }}">Registrácia</a>
+                            <a href="{{ route('register.show') }}">{{ __('messages.noAccount') }}</a>
                         </div>
 
                     </form>
