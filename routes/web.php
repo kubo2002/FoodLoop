@@ -4,11 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
 
-// docasna homepage
-Route::get('/', function () {
-    return 'Welcome';
-})->name('home');
-
 // register
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register.show');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
@@ -28,3 +23,14 @@ Route::get('/lang/{locale}', function ($locale) {
     return back();
 
 })->name('lang.switch');
+
+// homepage
+Route::get('/home', function () {
+    return view('home');
+})->middleware('auth')->name('home');
+
+
+//debug
+Route::get('/debug-session', function () {
+    return session()->all();
+});

@@ -111,7 +111,8 @@
                             @enderror
                         </div>
 
-                        <button class="btn btn-success w-100">{{ __('messages.register') }}</button>
+                        <button type="submit" class="btn btn-success w-100">{{ __('messages.register') }}</button>
+
 
 
                         <div class="text-center mt-3">

@@ -35,5 +35,18 @@ services:
       - .:/var/www/html
     command: ["sleep", "infinity"]
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: root
+    depends_on:
+      - mysql
+
 volumes:
   mysql_data:
