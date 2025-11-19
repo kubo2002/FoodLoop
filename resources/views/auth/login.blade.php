@@ -1,22 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
+@extends('layouts.app')
+
+@section('content')
 
 <!-- Bootstrap layout -->
-<div class="container mt-5">
-
-    <div class="position-absolute top-0 end-0 p-3">
-        <a href="{{ route('lang.switch', 'sk') }}" class="btn btn-outline-primary btn-sm">SK</a>
-        <a href="{{ route('lang.switch', 'en') }}" class="btn btn-outline-secondary btn-sm">EN</a>
-    </div>
-
-    <div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+<div class="container mt-5 custom-space">
+    <div class="d-flex justify-content-center align-items-center bg-light">
         <div class="col-md-5">
+            @php $lang = app()->getLocale(); @endphp
+
+            <!-- Prepinace jazykov-->
+            <div class="d-flex justify-content-center mb-3">
+                <a href="{{ route('lang.switch', 'sk') }}"
+                   class="btn mx-2 {{ $lang == 'sk' ? 'btn-primary' : 'btn-outline-primary' }}">
+                    SK
+                </a>
+                <a href="{{ route('lang.switch', 'en') }}"
+                   class="btn mx-2 {{ $lang == 'en' ? 'btn-primary' : 'btn-outline-primary' }}">
+                    EN
+                </a>
+            </div>
 
             <!-- Karta s prihlasovacim formularom -->
             <div class="card shadow-sm">
@@ -70,7 +72,4 @@
         </div>
     </div>
 </div>
-
-</body>
-</html>
-
+@endsection

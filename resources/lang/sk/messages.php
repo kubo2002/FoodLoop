@@ -12,5 +12,9 @@ return [
     'donor' => 'Darca',
     'recipient' => 'Príjemca potravinovej pomoci',
     'selectRole' => 'Vyberte rolu',
-    'alreadyHaveAccount' => 'Už mám vytvorený účet'
+    'alreadyHaveAccount' => 'Už mám vytvorený účet',
+    'home' => 'Domov',
+    'welcome' => 'Vitajte späť',
+    'welcomeScreenText' => "ste úspešne príhlasený ako",
+    'logout' => 'Odhlásiť sa'
 ];

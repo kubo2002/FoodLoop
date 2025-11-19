@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\HomeController;
 
 // register
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register.show');
@@ -25,9 +25,10 @@ Route::get('/lang/{locale}', function ($locale) {
 })->name('lang.switch');
 
 // homepage
-Route::get('/home', function () {
-    return view('home');
-})->middleware('auth')->name('home');
+Route::get('/home', [HomeController::class, 'index'])
+    ->middleware('auth')
+    ->name('home');
+
 
 
 //debug
