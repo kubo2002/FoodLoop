@@ -91,11 +91,8 @@
                         <!-- Vyber role donor/recipient -->
                         <div class="mb-3">
                             <label class="form-label">{{ __('messages.role') }}</label>
-                            <select
-                                name="role"
-                                class="form-select @error('role') is-invalid @enderror"
-                            >
-                                <option value="">{{ __('messages.selectRole') }}</option>
+                            <select name="role" class="form-select @error('role') is-invalid @enderror" required>
+                                <option value="" disabled selected>{{ __('messages.selectRole') }}</option>
                                 <option value="donor">{{ __('messages.donor') }}</option>
                                 <option value="recipient">{{ __('messages.recipient') }}</option>
                             </select>
@@ -109,12 +106,17 @@
                         <button type="submit" class="btn btn-success w-100">{{ __('messages.register') }}</button>
 
 
-
                         <div class="text-center mt-3">
                             <a href="{{ route('login.show') }}">{{ __('messages.alreadyHaveAccount') }}</a>
                         </div>
 
                     </form>
+
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            {{ $errors->first() }}
+                        </div>
+                    @endif
 
                 </div>
             </div>

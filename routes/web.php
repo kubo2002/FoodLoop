@@ -30,7 +30,6 @@ Route::get('/home', [HomeController::class, 'index'])
     ->name('home');
 
 
-
 //debug
 Route::get('/debug-session', function () {
     return session()->all();

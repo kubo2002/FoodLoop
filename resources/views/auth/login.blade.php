@@ -26,9 +26,15 @@
 
                     <h3 class="text-center mb-4">{{ __('messages.login') }}</h3>
 
+
                     <!-- Zaciatok prihlasovacieho formulara -->
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                {{ $errors->first() }}
+                            </div>
+                        @endif
 
                         <!-- Pole email -->
                         <div class="mb-3">
