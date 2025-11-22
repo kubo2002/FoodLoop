@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @section('content')
@@ -26,15 +27,16 @@
 
                     <h3 class="text-center mb-4">{{ __('messages.login') }}</h3>
 
+                    <!-- Zobrazenie chyby prihlasovania -->
+                    @if (!empty($login_failed))
+                        <div class="alert alert-danger" role="alert">
+                            {{ $login_failed }}
+                        </div>
+                    @endif
 
                     <!-- Zaciatok prihlasovacieho formulara -->
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                {{ $errors->first() }}
-                            </div>
-                        @endif
 
                         <!-- Pole email -->
                         <div class="mb-3">
@@ -44,10 +46,6 @@
                                 name="email"
                                 class="form-control @error('email') is-invalid @enderror"
                             >
-                            <!-- Blade direktiva kontroluje ci existuje po odolsani validacna chyba pre email  -->
-                            @error('email')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
                         </div>
 
                         <!-- Pole password -->
@@ -58,10 +56,6 @@
                                 name="password"
                                 class="form-control @error('password') is-invalid @enderror"
                             >
-                            <!-- Blade direktiva kontroluje ci existuje po odolsani validacna chyba pre password  -->
-                            @error('password')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
                         </div>
 
                         <button class="btn btn-primary w-100">{{ __('messages.login') }}</button>
@@ -71,10 +65,8 @@
                         </div>
 
                     </form>
-
                 </div>
             </div>
-
         </div>
     </div>
 </div>

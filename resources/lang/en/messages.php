@@ -15,5 +15,6 @@ return [
     'home' => 'Home',
     'welcome' => 'Welcome back',
     'welcomeScreenText' => "you're successfully logged in as a",
-    'logout' => 'Log out'
+    'logout' => 'Log out',
+    'loginFailed' => 'Wrong email or password.'
 ];

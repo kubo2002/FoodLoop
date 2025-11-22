@@ -53,26 +53,27 @@ class AuthController extends Controller
     public function login(Request $request) {
 
             // prvotne len pozrie ci udaje splnaju podmienky vstupu
-            $request->validate([
+            $validated = $request->validate([
                 'email'    => 'required|email',
                 'password' => 'required',
-            ]);
+            ],[
+                'email.required' => 'Email je povinný.',
+                'email.email' => 'Email musí byť platný.',
+                'password.required' => 'Heslo je povinné.'
+            ]);;
 
             // pokus prihlasenia s udajmi od uzivatela
-            if (Auth::attempt([
-                'email' => $request->email,
-                'password' => $request->password,
-            ])) {
+            if (Auth::attempt($validated)) {
                 // regeneruje session ID po uspesnom prihlaseni, inak by sa mohlo zneuzit stare session ID z prihlasovania
                 $request->session()->regenerate();
                 return redirect()->route('home'); // po uspesnom prihlaseni routuje pouzivatela na homepage
 
             }
-            // v pripade ze prihlasenie zlyha
-            return back()->withErrors([
-                'email' => 'Invalid credentials.'
-            ]);
 
+            return view('auth.login', [
+                'login_failed' =>  __('messages.loginFailed'),
+                'old_email' => $request->email
+            ]);
     }
 
     /**

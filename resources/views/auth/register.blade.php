@@ -2,7 +2,6 @@
 
 @section('content')
 
-
 <!-- Bootstrap layout -->
 <div class="container mt-5 custom-space">
     <div class="d-flex justify-content-center align-items-center bg-light">
@@ -27,6 +26,11 @@
 
                     <h3 class="text-center mb-4">{{ __('messages.register') }}</h3>
 
+                    @if (!empty($register_failed))
+                        <div class="alert alert-danger">
+                            {{ $register_failed }}
+                        </div>
+                    @endif
                     <!-- Zaciatok formulara -->
                     <form method="POST" action="{{ route('register') }}">
                         @csrf

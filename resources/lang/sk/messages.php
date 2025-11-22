@@ -16,5 +16,6 @@ return [
     'home' => 'Domov',
     'welcome' => 'Vitajte späť',
     'welcomeScreenText' => "ste úspešne príhlasený ako",
-    'logout' => 'Odhlásiť sa'
+    'logout' => 'Odhlásiť sa',
+    'loginFailed' => 'Nesprávne heslo alebo email.'
 ];
