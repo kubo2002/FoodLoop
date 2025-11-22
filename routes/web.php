@@ -44,6 +44,7 @@ Route::get('/edit-profile', [HomeController::class, 'editProfile'])
 Route::post('/profile/update', [HomeController::class, 'updateProfile'])
     ->middleware('auth')
     ->name('profile.update');
+
 //debug
 Route::get('/debug-session', function () {
     return session()->all();

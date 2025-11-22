@@ -8,9 +8,19 @@
         <!-- Box s profilovou fotkou, zatial som style pouzil priamo tu v blade -->
         <div class="d-flex align-items-center gap-4">
             <!-- Šedý placeholder -->
-            <div class="bg-secondary rounded"
-                 style="width: 200px; height: 200px; display: flex; align-items: center; justify-content: center;">
-                <span class="text-white-50">200x200</span>
+            <div class="rounded bg-secondary"
+                 style="width: 200px; height: 200px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+
+                @if(auth()->user()->photo)
+                    {{-- Ak existuje profilovka --}}
+                    <img src="{{ asset('storage/' . auth()->user()->photo) }}"
+                         alt="Profile photo"
+                         style="width: 100%; height: 100%; object-fit: cover;">
+                @else
+                    {{-- Placeholder --}}
+                    <span class="text-white-50">200x200</span>
+                @endif
+
             </div>
 
             <!-- Text napravo -->

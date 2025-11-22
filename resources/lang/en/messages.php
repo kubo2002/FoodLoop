@@ -19,4 +19,6 @@ return [
     'loginFailed' => 'Wrong email or password.',
     'myProfile' => 'My profile',
     'editProfile' => 'Edit profile',
+    'saveChanges' => 'Save changes',
+    'profilePicture' => 'Profile picture'
 ];

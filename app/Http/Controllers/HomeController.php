@@ -31,6 +31,13 @@ class HomeController extends Controller
             'role'  => 'required|in:donor,recipient',
         ]);
 
+        // Ak existuje fotka → uložíme ju do validated
+        if ($request->hasFile('photo')) {
+            $path = $request->file('photo')->store('profile_photos', 'public');
+            $validated['photo'] = $path;
+        }
+
+        // Update všetkého naraz
         $user->update($validated);
 
         return redirect()->route('profile')->with('success', 'Profile updated successfully.');

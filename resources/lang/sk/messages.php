@@ -20,4 +20,6 @@ return [
     'loginFailed' => 'Nesprávne heslo alebo email.',
     'myProfile' => 'Môj profil',
     'editProfile' => 'Upraviť profil',
+    'saveChanges' => 'Uložiť zmeny',
+    'profilePicture' => 'Profilová fotografia'
 ];
