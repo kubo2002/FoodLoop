@@ -30,6 +30,10 @@ Route::get('/home', [HomeController::class, 'index'])
     ->middleware('auth')
     ->name('home');
 
+// profile
+Route::get('/profile', [HomeController::class, 'profile'])
+    ->middleware('auth')
+    ->name('profile');
 
 //debug
 Route::get('/debug-session', function () {

@@ -10,6 +10,10 @@ class HomeController extends Controller
     public function index()
     {
         return view('home', ['user' => Auth::user()]);
+    }
 
+    public function profile()
+    {
+        return view('profile.index');
     }
 }
