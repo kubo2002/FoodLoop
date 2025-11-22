@@ -17,5 +17,7 @@ return [
     'welcome' => 'Vitajte späť',
     'welcomeScreenText' => "ste úspešne príhlasený ako",
     'logout' => 'Odhlásiť sa',
-    'loginFailed' => 'Nesprávne heslo alebo email.'
+    'loginFailed' => 'Nesprávne heslo alebo email.',
+    'myProfile' => 'Môj profil',
+    'editProfile' => 'Upraviť profil',
 ];

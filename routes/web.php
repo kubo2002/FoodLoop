@@ -35,6 +35,11 @@ Route::get('/profile', [HomeController::class, 'profile'])
     ->middleware('auth')
     ->name('profile');
 
+// edit profile
+Route::get('/edit-profile', [HomeController::class, 'editProfile'])
+    -> middleware('auth')
+    -> name('edit-profile');
+
 //debug
 Route::get('/debug-session', function () {
     return session()->all();

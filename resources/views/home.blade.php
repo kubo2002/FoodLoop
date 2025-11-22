@@ -22,18 +22,6 @@
             {{ __('messages.welcomeScreenText') }}
             <strong>{{ auth()->user()->role }}</strong>.
         </p>
-
-        <div class="d-flex justify-content-center mt-4">
-            <a href="{{ route('logout') }}"
-               class="btn btn-danger"
-               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                {{ __('messages.logout') }}
-            </a>
-        </div>
-
-        <form id="logout-form" method="POST" action="{{ route('logout') }}" class="d-none">
-            @csrf
-        </form>
     </div>
 
 </div>
