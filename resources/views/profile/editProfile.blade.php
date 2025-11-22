@@ -22,54 +22,36 @@
             </div>
 
             <!-- Formular pre zmeny mena -->
-            <div class="mb-3">
-                <label class="form-label"> <strong>{{ __('messages.name') }}</strong></label>
-                <input
-                    type="text"
-                    name="name"
-                    class="form-control @error('name') is-invalid @enderror"
-                    value="{{ auth()->user()->name }}"
-                >
+            <form method="POST" action="{{ route('profile.update') }}">
+                @csrf
 
-                @error('name')
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
+                <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <input type="text" name="name" class="form-control"
+                           value="{{ old('name', auth()->user()->name) }}">
+                </div>
 
-            <!-- Formular pre zmeny emailu -->
-            <div class="mb-3">
-                <label class="form-label"><strong>Email</strong></label>
-                <input
-                    type="email"
-                    name="email"
-                    class="form-control @error('email') is-invalid @enderror"
-                    value="{{ auth()->user()->email }}"
-                >
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control"
+                           value="{{ old('email', auth()->user()->email) }}">
+                </div>
 
+                <div class="mb-3">
+                    <label class="form-label">{{ __('messages.role') }}</label>
+                    <select name="role" class="form-select @error('role') is-invalid @enderror" required>
+                        <option value="" disabled selected>{{ auth()->user()->role }}</option>
+                        <option value="donor">{{ __('messages.donor') }}</option>
+                        <option value="recipient">{{ __('messages.recipient') }}</option>
+                    </select>
 
-                @error('email')
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-
-
-            <!-- Vyber role donor/recipient -->
-            <div class="mb-3">
-                <label class="form-label"><strong>{{ __('messages.role') }}</strong></label>
-                <select name="role" class="form-select @error('role') is-invalid @enderror" required>
-                    <option value="" disabled selected>{{ auth()->user()-> role }}</option>
-                    <option value="donor">{{ __('messages.donor') }}</option>
-                    <option value="recipient">{{ __('messages.recipient') }}</option>
-                </select>
-
-                <!-- Blade direktiva kontroluje ci existuje po odolsani validaacna chyba pre rolu  -->
-                @error('role')
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <a href="#" class="btn btn-primary mt-3">{{ __('messages.editProfile') }}</a>
+                    <!-- Blade direktiva kontroluje ci existuje po odolsani validaacna chyba pre rolu  -->
+                    @error('role')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                <button class="btn btn-primary">Save changes</button>
+            </form>
         </div>
     </div>
 @endsection

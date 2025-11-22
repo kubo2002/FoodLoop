@@ -40,6 +40,10 @@ Route::get('/edit-profile', [HomeController::class, 'editProfile'])
     -> middleware('auth')
     -> name('edit-profile');
 
+// update profile
+Route::post('/profile/update', [HomeController::class, 'updateProfile'])
+    ->middleware('auth')
+    ->name('profile.update');
 //debug
 Route::get('/debug-session', function () {
     return session()->all();
