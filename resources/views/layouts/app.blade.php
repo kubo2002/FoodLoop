@@ -41,10 +41,23 @@
                 </ul>
 
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item d-flex align-items-center">
-                        {{-- presmerovanie na pouzivatelsky profil --}}
+                    {{-- Ikona profilu --}}
+                    <li class="nav-item d-flex align-items-center me-3">
                         <a href="{{ route('profile') }}" class="nav-link">
                             <i class="bi bi-person-circle fs-5"></i>
+                        </a>
+                    </li>
+
+                    {{-- Prepínače jazykov --}}
+                    @php $lang = app()->getLocale(); @endphp
+                    <li class="nav-item d-flex align-items-center">
+                        <a href="{{ route('lang.switch', 'sk') }}"
+                           class="btn mx-1 {{ $lang == 'sk' ? 'btn-primary' : 'btn-outline-primary' }}">
+                            SK
+                        </a>
+                        <a href="{{ route('lang.switch', 'en') }}"
+                           class="btn mx-1 {{ $lang == 'en' ? 'btn-primary' : 'btn-outline-primary' }}">
+                            EN
                         </a>
                     </li>
                 </ul>

@@ -70,8 +70,6 @@
             </div>
 
             <a href="#" class="btn btn-primary mt-3">{{ __('messages.editProfile') }}</a>
-
-
         </div>
     </div>
 @endsection

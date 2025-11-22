@@ -6,20 +6,6 @@
 <div class="container mt-5 custom-space">
     <div class="d-flex justify-content-center align-items-center bg-light">
         <div class="col-md-5">
-            @php $lang = app()->getLocale(); @endphp
-
-            <!-- Prepinace jazykov-->
-            <div class="d-flex justify-content-center mb-3">
-                <a href="{{ route('lang.switch', 'sk') }}"
-                   class="btn mx-2 {{ $lang == 'sk' ? 'btn-primary' : 'btn-outline-primary' }}">
-                    SK
-                </a>
-                <a href="{{ route('lang.switch', 'en') }}"
-                   class="btn mx-2 {{ $lang == 'en' ? 'btn-primary' : 'btn-outline-primary' }}">
-                    EN
-                </a>
-            </div>
-
             <!-- Karta s registracnym formularom -->
             <div class="card shadow-sm" style="max-width: 400px; margin: auto;">
                 <div class="card-body">
