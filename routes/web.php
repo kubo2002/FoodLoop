@@ -45,6 +45,11 @@ Route::post('/profile/update', [HomeController::class, 'updateProfile'])
     ->middleware('auth')
     ->name('profile.update');
 
+// DELETE operácia - zmazanie profilovej fotky (CRUD - kompletná implementácia)
+Route::delete('/profile/photo', [HomeController::class, 'deletePhoto'])
+    ->middleware('auth')
+    ->name('profile.photo.delete');
+
 //debug
 Route::get('/debug-session', function () {
     return session()->all();

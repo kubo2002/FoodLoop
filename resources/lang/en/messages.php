@@ -20,5 +20,7 @@ return [
     'myProfile' => 'My profile',
     'editProfile' => 'Edit profile',
     'saveChanges' => 'Save changes',
-    'profilePicture' => 'Profile picture'
+    'profilePicture' => 'Profile picture',
+    'deletePhoto' => 'Delete photo',
+    'confirmDeletePhoto' => 'Are you sure you want to delete your profile photo?'
 ];

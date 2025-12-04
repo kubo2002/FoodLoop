@@ -1,0 +1,54 @@
+/* Wrapper pre centrovanie karty profilu na stránke */
+.profile-wrapper {
+    display: flex;              /* Flexbox pre centrovanie */
+    justify-content: center;    /* Horizontálne centrovanie */
+    margin-top: 40px;          /* Odsadenie od horného okraja */
+}
+
+/* Hlavná karta profilu - biely box s tieňom */
+.profile-card {
+    background: white;              /* Biele pozadie */
+    padding: 30px;                  /* Vnútorný odsadenie */
+    border-radius: 20px;            /* Zaoblené rohy */
+    text-align: center;             /* Centrovanie textu */
+    width: 100%;                    /* Plná šírka na mobiloch */
+    max-width: 400px;               /* Max šírka na väčších obrazovkách */
+    box-shadow: 0 0 20px rgba(0,0,0,0.1); /* Jemný tieň okolo karty */
+}
+
+/* Wrapper pre profilovú fotku - kruhový kontajner */
+.photo-wrapper {
+    width: 150px;               /* Šírka kruhu */
+    height: 150px;              /* Výška kruhu */
+    margin: 0 auto;             /* Centrovanie horizontálne */
+    border-radius: 50%;         /* Vytvorí kruh (50% = kruh) */
+    overflow: hidden;           /* Odreže presahujúce časti fotky mimo kruhu */
+}
+
+/* Štýl pre samotnú profilovú fotku */
+.photo {
+    width: 100%;                /* Vyplní celý wrapper */
+    height: 100%;               /* Vyplní celú výšku wrapperu */
+    object-fit: cover;          /* Orezanie fotky aby vyplnila priestor bez deformácie */
+}
+
+/* Štýl pre meno používateľa */
+.name {
+    margin-top: 20px;           /* Odsadenie od fotky */
+    font-weight: 600;           /* Tučné písmo */
+    color: #2E7D32;             /* Zelená farba (FoodLoop téma) */
+}
+
+/* Štýl pre email a rolu */
+.email, .role {
+    margin: 5px 0;              /* Vertikálne odsadenie */
+    color: #666;                /* Sivá farba pre sekundárny text */
+}
+
+/* Kontajner pre tlačidlá (Logout, Edit) */
+.buttons {
+    margin-top: 20px;           /* Odsadenie od textu */
+    display: flex;              /* Flexbox pre usporiadanie tlačidiel */
+    justify-content: center;    /* Centrovanie tlačidiel */
+    gap: 10px;                  /* Medzera medzi tlačidlami */
+}

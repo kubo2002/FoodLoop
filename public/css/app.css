@@ -1,5 +1,5 @@
-@import 'tailwindcss';
-@import "./language-switcher.css";
+@import '../../node_modules/tailwindcss/dist/lib.d.mts';
+@import "language-switcher.css";
 
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';

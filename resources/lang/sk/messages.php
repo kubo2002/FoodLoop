@@ -21,5 +21,7 @@ return [
     'myProfile' => 'Môj profil',
     'editProfile' => 'Upraviť profil',
     'saveChanges' => 'Uložiť zmeny',
-    'profilePicture' => 'Profilová fotografia'
+    'profilePicture' => 'Profilová fotografia',
+    'deletePhoto' => 'Odstrániť fotografiu',
+    'confirmDeletePhoto' => 'Ste si istý, že checete odstrániť profilovú fotografiu ?'
 ];
