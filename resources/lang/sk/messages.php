@@ -23,5 +23,11 @@ return [
     'saveChanges' => 'Uložiť zmeny',
     'profilePicture' => 'Profilová fotografia',
     'deletePhoto' => 'Odstrániť fotografiu',
-    'confirmDeletePhoto' => 'Ste si istý, že checete odstrániť profilovú fotografiu ?'
+    'confirmDeletePhoto' => 'Ste si istý, že checete odstrániť profilovú fotografiu ?',
+    'error_name' => 'Meno musí mať aspoň 3 znaky.',
+    'error_email_required' => 'Email je povinný.',
+    'error_email_format' => 'Zadajte platný email.',
+    'error_password_required' => 'Heslo je povinné.',
+    'error_password_length' => 'Heslo musí mať aspoň 6 znakov.',
+    'error_password_match' => 'Heslá sa musia zhodovať.',
 ];

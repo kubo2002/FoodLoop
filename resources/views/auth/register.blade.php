@@ -18,7 +18,7 @@
                         </div>
                     @endif
                     <!-- Zaciatok formulara -->
-                    <form method="POST" action="{{ route('register') }}">
+                    <form id="register-form" method="POST" action="{{ route('register') }}">
                         @csrf
 
                         <!-- Pole Name -->
@@ -27,14 +27,12 @@
                             <input
                                 type="text"
                                 name="name"
+                                id="name"
                                 class="form-control @error('name') is-invalid @enderror"
                                 value="{{ old('name') }}"
                             >
+                            <div class="text-danger small error-message" id="error-name"></div>
 
-                            <!-- Blade direktiva kontroluje ci existuje po odolsani validacna chyba pre meno  -->
-                            @error('name')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
                         </div>
 
                         <!-- Pole Email -->
@@ -43,14 +41,12 @@
                             <input
                                 type="email"
                                 name="email"
+                                id="email"
                                 class="form-control @error('email') is-invalid @enderror"
                                 value="{{ old('email') }}"
                             >
 
-                            <!-- Blade direktiva kontroluje ci existuje po odolsani validacna chyba pre email  -->
-                            @error('email')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <div class="text-danger small error-message" id="error-email"></div>
                         </div>
 
                         <!-- Pole Password -->
@@ -59,23 +55,23 @@
                             <input
                                 type="password"
                                 name="password"
+                                id="password"
                                 class="form-control @error('password') is-invalid @enderror"
                             >
 
-                            <!-- Blade direktiva kontroluje ci existuje po odolsani validacna chyba pre heslo  -->
-                            @error('password')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <div class="text-danger small error-message" id="error-password"></div>
                         </div>
 
-                        <!-- Potvrdzovacie tlacidlo -->
                         <div class="mb-3">
                             <label class="form-label">{{ __('messages.confirmPassword') }}</label>
                             <input
                                 type="password"
+                                id="password_confirmation"
                                 name="password_confirmation"
                                 class="form-control"
                             >
+
+                            <div class="text-danger small error-message" id="error-confirm"></div>
                         </div>
 
                         <!-- Vyber role donor/recipient -->
@@ -93,6 +89,7 @@
                             @enderror
                         </div>
 
+                        <!-- Potvrdzovacie tlacidlo -->
                         <button type="submit" class="btn btn-success w-100">{{ __('messages.register') }}</button>
 
 

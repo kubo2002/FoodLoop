@@ -14,7 +14,19 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet"/>
     {{-- Vlastný CSS súbor pre profil --}}
     <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+    {{-- Vlastný CSS súbor pre prepínač jazykov --}}
+    <link rel="stylesheet" href="{{ asset('css/language-switcher.css') }}">
 
+    {{-- Vlastný JS súbor pre Client-side validaciu registračného formulára --}}
+    <script src="{{ asset('js/register.js') }}"></script>
+
+    {{-- Vlastný JS súbor pre Client-side validaciu registračného formulára --}}
+    <script src="{{ asset('js/login.js') }}"></script>
+
+    {{-- Pridanie prekladov do js --}}
+    <script>
+        window.translations = @json(__('messages'));
+    </script>
     {{-- Vite pre kompiláciu CSS/JS (momentálne zakázané) --}}
     {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
 
@@ -67,12 +79,14 @@
                     <li class="nav-item d-flex align-items-center">
                         {{-- Slovenčina - aktívne tlačidlo ak je SK jazyk --}}
                         <a href="{{ route('lang.switch', 'sk') }}"
-                           class="btn mx-1 {{ $lang == 'sk' ? 'btn-primary' : 'btn-outline-primary' }}">
+                           class="btn mx-1 language-btn {{ $lang == 'sk' ? 'btn-primary' : 'btn-outline-primary' }}"
+                           data-lang="sk">
                             SK
                         </a>
                         {{-- Angličtina - aktívne tlačidlo ak je EN jazyk --}}
                         <a href="{{ route('lang.switch', 'en') }}"
-                           class="btn mx-1 {{ $lang == 'en' ? 'btn-primary' : 'btn-outline-primary' }}">
+                           class="btn mx-1 language-btn {{ $lang == 'en' ? 'btn-primary' : 'btn-outline-primary' }}"
+                           data-lang="en">
                             EN
                         </a>
                     </li>

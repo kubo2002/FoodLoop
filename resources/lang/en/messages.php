@@ -22,5 +22,11 @@ return [
     'saveChanges' => 'Save changes',
     'profilePicture' => 'Profile picture',
     'deletePhoto' => 'Delete photo',
-    'confirmDeletePhoto' => 'Are you sure you want to delete your profile photo?'
+    'confirmDeletePhoto' => 'Are you sure you want to delete your profile photo?',
+    'error_name' => 'Name must be at least 3 characters.',
+    'error_email_required' => 'Email is required.',
+    'error_email_format' => 'Please enter a valid email.',
+    'error_password_required' => 'Password is required.',
+    'error_password_length' => 'Password must be at least 6 characters.',
+    'error_password_match' => 'Passwords must match.',
 ];

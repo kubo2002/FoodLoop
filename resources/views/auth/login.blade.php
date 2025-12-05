@@ -22,7 +22,7 @@
                     @endif
 
                     <!-- Zaciatok prihlasovacieho formulara -->
-                    <form method="POST" action="{{ route('login') }}">
+                    <form id="login-form" method="POST" action="{{ route('login') }}">
                         @csrf
 
                         <!-- Pole email -->
@@ -31,8 +31,11 @@
                             <input
                                 type="email"
                                 name="email"
+                                id="login-email"
                                 class="form-control @error('email') is-invalid @enderror"
                             >
+
+                            <div class="text-danger small error-message" id="login-error-email"></div>
                         </div>
 
                         <!-- Pole password -->
@@ -41,8 +44,11 @@
                             <input
                                 type="password"
                                 name="password"
+                                id="login-password"
                                 class="form-control @error('password') is-invalid @enderror"
                             >
+
+                            <div class="text-danger small error-message" id="login-error-password"></div>
                         </div>
 
                         <button class="btn btn-primary w-100">{{ __('messages.login') }}</button>
