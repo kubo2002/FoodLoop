@@ -50,7 +50,15 @@ Route::delete('/profile/photo', [HomeController::class, 'deletePhoto'])
     ->middleware('auth')
     ->name('profile.photo.delete');
 
+
+// routy pre CRUD operácie nad Offer
+Route::resource('offers', OfferController::class);
+
+// AJAX – ponuky podľa kategórie
+Route::get('/categories/{id}/offers', [OfferController::class, 'byCategory'])->name('offers.byCategory');
+
 //debug
 Route::get('/debug-session', function () {
     return session()->all();
 });
+
