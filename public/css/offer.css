@@ -1,0 +1,39 @@
+/* 1. Jemný hover efekt na kartu ponuky */
+.offer-card {
+    transition: transform 0.20s ease, box-shadow 0.20s ease; /* plynulá animácia */
+}
+.offer-card:hover {
+    transform: translateY(-3px); /* karta sa jemne posunie nahor */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); /* väčší tieň */
+}
+
+/* 2. Zaoblené rohy obrázka hore */
+.offer-card img {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+/* 3. Vlastná farba pre nadpis ponuky */
+.offer-title {
+    font-weight: 700; /* hrubšie písmo */
+    color: #2d6a4f; /* zelená eco farba */
+}
+
+/* 4. Štýl pre "meta info" sekciu (lokalita, expirácia) */
+.offer-meta {
+    font-size: 0.85rem; /* menšie písmo */
+    color: #6c757d; /* tlmená sivá */
+    line-height: 1.4; /* lepšia čitateľnosť */
+}
+
+/* 5. Vlastné tlačidlá v kartách (hover efekty) */
+.offer-card .btn-custom {
+    border-radius: 6px; /* jemné zaoblenie tlačidla */
+    font-weight: 600; /* hrubší text */
+    transition: 0.2s ease; /* plynulá animácia */
+}
+
+.offer-card .btn-custom:hover {
+    opacity: 0.85;  /* mierne stmavenie */
+    transform: scale(1.02); /* jemné zväčšenie pri hover */
+}

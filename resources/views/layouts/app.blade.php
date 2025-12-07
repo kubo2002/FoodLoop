@@ -18,7 +18,8 @@
     <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
     {{-- Vlastný CSS súbor pre prepínač jazykov --}}
     <link rel="stylesheet" href="{{ asset('css/language-switcher.css') }}">
-
+    {{-- Vlastný CSS súbor pre dizajn karty jednotlivej ponuky --}}
+    <link rel="stylesheet" href="{{ asset('css/offer.css') }}">
     {{-- Vlastný JS súbor pre Client-side validaciu registračného formulára --}}
     <script src="{{ asset('js/register.js') }}"></script>
 

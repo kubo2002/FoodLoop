@@ -21,7 +21,7 @@
                 aby som vedel tento konkrétny prvok odstrániť z DOM-u.
             --}}
             <div class="col-md-4 mb-3" id="offer-{{ $offer->id }}">
-                <div class="card h-100">
+                <div class="card h-100 offer-card">
 
                     {{--
                         Obrázok ponuky:
@@ -39,7 +39,7 @@
                     <div class="card-body">
 
                         {{-- Názov ponuky --}}
-                        <h5 class="card-title">{{ $offer->title }}</h5>
+                        <h5 class="card-title offer-title">{{ $offer->title }}</h5>
 
                         {{--
                             Popis skrátený na 100 znakov.
@@ -53,19 +53,17 @@
                             Základné detaily: lokalita a expirácia.
                             Využívam preklady z messages.php.
                         --}}
-                        <p class="text-muted" style="font-size: 0.8rem;">
-                            {{ __('messages.location') }}
-                            <strong>{{ $offer->location }}</strong><br>
-
-                            {{ __('messages.expiration') }}
-                            <strong>{{ $offer->expiration_date ?? 'neuvedené' }}</strong>
+                        <p class="offer-meta">
+                            {{ __('messages.location') }} <strong>{{ $offer->location }}</strong><br>
+                            {{ __('messages.expiration') }} <strong>{{ $offer->expiration_date }}</strong>
                         </p>
 
+
                         {{-- Tlačidlo pre detail ponuky --}}
-                        <a href="{{ route('offers.show', $offer->id) }}"
-                           class="btn btn-primary btn-sm">
+                        <a href="{{ route('offers.show', $offer->id) }}" class="btn btn-primary btn-sm btn-custom">
                             {{ __('messages.detail') }}
                         </a>
+
 
                         {{--
                             Donor môže upraviť alebo vymazať iba VLASTNÉ ponuky.
@@ -74,8 +72,7 @@
                         @if(auth()->id() === $offer->user_id)
 
                             {{-- Tlačidlo na úpravu ponuky --}}
-                            <a href="{{ route('offers.edit', $offer->id) }}"
-                               class="btn btn-warning btn-sm">
+                            <a href="{{ route('offers.edit', $offer->id) }}" class="btn btn-primary btn-sm btn-custom">
                                 {{ __('messages.edit') }}
                             </a>
 
@@ -87,10 +84,13 @@
                             --}}
                             <button
                                 type="button"
-                                class="btn btn-danger btn-sm delete-offer"
+                                class="btn btn-danger btn-sm delete-offer btn-custom"
                                 data-id="{{ $offer->id }}">
                                 {{ __('messages.delete') }}
                             </button>
+
+                            </a>
+
 
                         @endif
                     </div>
