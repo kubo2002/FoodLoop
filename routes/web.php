@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
-
+use App\Http\Controllers\OfferController;
 
 // register
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register.show');

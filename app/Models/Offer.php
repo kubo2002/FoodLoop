@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Database\Eloquent\Model;
 class Offer extends Model
 {
     // Zoznam atribútov, ktoré môžu byť hromadne vyplnené pomocou create() / update()

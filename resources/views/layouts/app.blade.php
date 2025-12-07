@@ -3,6 +3,8 @@
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     {{-- Responsive meta tag pre mobilné zariadenia --}}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FoodLoop</title>
@@ -27,6 +29,11 @@
     <script>
         window.translations = @json(__('messages'));
     </script>
+
+    {{-- Skripty pre AJAX volania nad ponukami --}}
+    <script src="{{ asset('js/offer.js') }}"></script>
+    <script src="{{ asset('js/categories.js') }}"></script>
+
     {{-- Vite pre kompiláciu CSS/JS (momentálne zakázané) --}}
     {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
 
