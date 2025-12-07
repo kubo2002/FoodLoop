@@ -1,10 +1,55 @@
-# Laravel + Docker Application
+# FoodLoop – Laravel Project
 
-This project is a Laravel application running in Docker with PHP 8.3, MySQL 8, and Node 22 (Vite).
+FoodLoop je webová aplikácia, ktorá spája donorov potravín s recipientmi.  
+Donori môžu vytvárať ponuky prebytočných potravín a recipienti si ich môžu vyzdvihnúť.  
+Projekt bol vytvorený ako semestrálna práca pre predmet **VAII**.
 
-## Notes
-- The README will be expanded as the project grows.
-## Project Structure
+---
+## Funkcionalita
+
+### Autentifikácia
+- Registrácia a prihlásenie používateľov (Laravel Auth)
+- Podpora dvoch rolí: **donor** a **recipient**
+- Úprava profilu + nahrávanie profilovej fotky
+
+### Ponuky (CRUD)
+- **Create** – donor pridáva ponuky vrátane obrázka  
+- **Read** – zobrazenie ponúk podľa kategórie  
+- **Update** – úprava ponuky  
+- **Delete** – mazanie ponuky **cez AJAX** bez reloadu
+
+### Kategórie
+- Dynamické načítanie ponúk cez AJAX (fetch API)
+- Interaktívne zvýrazňovanie vybratej kategórie
+
+### Viacjazyčnosť
+- Celá aplikácia podporuje **SK/EN**
+- Preklady v resources/lang
+
+### Validácia
+- Klientská validácia (JS – login, register)
+- Serverová validácia (Laravel Requests)
+
+### UI + Responzívny dizajn
+- Bootstrap 5
+- Hamburger menu
+- Vlastné CSS pravidlá
+
+---
+
+## Použité technológie
+
+- **Laravel 12.x**
+- **PHP 8.3**
+- **MySQL (Docker)**
+- **Bootstrap 5**
+- **JavaScript (fetch API, AJAX, DOM manipulation)**
+- **Eloquent ORM**
+- **Blade Templates**
+
+---
+
+## Projektová štruktúra
 - `docker-compose.yml` – Docker service definitions
 - `Dockerfile` – PHP 8.3 FPM configuration
 - `app/` – application source code
@@ -12,79 +57,48 @@ This project is a Laravel application running in Docker with PHP 8.3, MySQL 8, a
 - `resources/` – Blade templates & frontend assets
 - `database/` – migrations and seeders
 
-## Requirements
+## Požiadavky
 
 - Docker & Docker Compose  
-- Git  
-- PHPStorm (recommended)
 
 ---
 
-## Getting Started
+## Spustenie projektu (Docker)
 
-### 1. Clone the repository
+Projekt beží v Docker Compose.  
 
+### 1. Klonovanie projektu
 ```bash
-git clone https://github.com/<your-username>/<repo>.git
-cd <repo>
+git clone https://github.com/username/FoodLoop.git
+cd FoodLoop
 ```
 
-### 2. Create an `.env` file
-Copy the example file:
+### 2. Spustenie Docker kontajnerov
 ```bash
-cp .env.example .env
+docker-compose up -d
 ```
-Update the database configuration to match Docker:
-```bash
-DB_CONNECTION=mysql
-DB_HOST=mysql
-DB_PORT=3306
-DB_DATABASE=foodloop
-DB_USERNAME=root
-DB_PASSWORD=root
-```
-### 3. Start Docker containers
-```bash
-docker compose up -d
-```
-### 4. Install Composer dependencies
+
+### 3. Inštalácia composer závislostí
 ```bash
 docker exec -it foodloop_app composer install
 ```
-### 5. Generate application key
+
+### 4. Vytvorenie .env súboru
+```bash
+cp .env.example .env
+```
+
+### 5. Generovanie aplikáčneho kľúča
 ```bash
 docker exec -it foodloop_app php artisan key:generate
 ```
-### 6. Run database migrations
+
+### 6. Migrácie databázy
 ```bash
 docker exec -it foodloop_app php artisan migrate
 ```
-### 7. Start the Laravel development server
-```bash
-docker exec -it foodloop_app php artisan serve --host=0.0.0.0 --port=8000
-```
-Application is now available at:
+
+### 7. Spustenie projektu
 ```bash
 http://localhost:8000
 ```
-
-## Frontend (Vite)
-### Install NPM dependencies
-```bash
-docker exec -it laravel_npm npm install
-```
-### Start Vite dev server
-```bash
-docker exec -it laravel_npm npm run dev
-```
-## MySQL Access
-You can connect to the MySQL container using any database client.
-```bash
-Connection details:
-    - Host: 127.0.0.1
-    - Port: 3306
-    - Database: foodloop
-    - User: root
-    - Password: root
-```
-
