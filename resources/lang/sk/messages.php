@@ -56,5 +56,6 @@ return [
     'new_photo' => 'Nová fotka (voliteľné)',
     'back' => 'Späť',
     'save_changes' => 'Uložiť zmeny',
-    'no_photo' => 'Žiadna fotka'
+    'no_photo' => 'Žiadna fotka',
+    'goToOffers' => 'Zobraziť ponuky'
 ];

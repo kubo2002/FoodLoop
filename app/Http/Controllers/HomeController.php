@@ -8,82 +8,114 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+    /**
+     * Základná stránka po prihlásení používateľa.
+     *
+     * Vracia Blade „home“, ktorému odovzdávam aktuálne
+     * prihláseného používateľa. Ten viem získať cez Auth::user().
+     */
     public function index()
     {
         return view('home', ['user' => Auth::user()]);
     }
 
+    /**
+     * Zobrazenie profilu používateľa
+     *
+     * Táto metóda iba vráti view s údajmi profilu.
+     */
     public function profile()
     {
         return view('profile.index');
     }
 
+    /**
+     * Zobrazenie formulára na editáciu profilu
+     */
     public function editProfile()
     {
         return view('profile.editProfile');
     }
 
+    /**
+     * UPDATE profilu používateľa
+     * ---------------------------
+     * Táto metóda je zodpovedná za aktualizáciu:
+     *  - mena
+     *  - emailu
+     *  - role (donor/recipient)
+     *  - profilovej fotky (ak bola pridaná)
+     *
+     * Používam server-side validáciu cez $request->validate(),
+     * aby boli údaje skontrolované aj na backend úrovni.
+     */
     public function updateProfile(Request $request) {
+
+        // Získanie aktuálne prihláseného používateľa
         $user = auth()->user();
 
+        // Validácia údajov – Laravel automaticky vyhodí chybu pri neplatných údajoch
         $validated = $request->validate([
             'name'  => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'email' => 'required|email|unique:users,email,' . $user->id, // email musí byť unikátny okrem aktuálneho usera
             'role'  => 'required|in:donor,recipient',
         ]);
 
-        // Ak existuje fotka → uložíme ju do validated
+        // Ak používateľ nahráva novú fotku → uložíme ju do storage
         if ($request->hasFile('photo')) {
+
+            /**
+             * Upload logika:
+             * - uložím súbor do storage/app/public/profile_photos/
+             * - disk 'public' je prepojený so storage:link
+             * - cesta (path) sa uloží do DB
+             */
             $path = $request->file('photo')->store('profile_photos', 'public');
+
+            // doplním foto do validovaných údajov
             $validated['photo'] = $path;
         }
 
-        // Update všetkého naraz
+        // Aktualizácia používateľa – mass assignment (fillable v User modeli)
         $user->update($validated);
 
-        return redirect()->route('profile')->with('success', 'Profile updated successfully.');
-
+        return redirect()
+            ->route('profile')
+            ->with('success', 'Profile updated successfully.');
     }
 
     /**
-     * DELETE operácia - Zmazanie profilovej fotky (CRUD kompletné)
+     * DELETE – Zmazanie profilovej fotky
+     * -----------------------------------
+     * Toto je kompletná DELETE operácia na úrovni používateľského profilu.
      *
-     * Táto metóda implementuje DELETE časť CRUD operácií:
-     * C - Create (register, upload fotky)
-     * R - Read (zobrazenie profilu)
-     * U - Update (updateProfile metóda)
-     * D - Delete (táto metóda) ✓
-     *
-     * Proces zmazania:
-     * 1. Získa aktuálne prihláseného používateľa cez auth()->user()
-     * 2. Skontroluje, či má používateľ nahranutu fotku (if $user->photo)
-     * 3. Vymaže fyzický súbor zo storage/app/public/profile_photos/
-     * 4. Nastaví photo stĺpec v databáze na null
-     * 5. Presmeruje späť na editáciu profilu s flash správou
-     *
-     * @return \Illuminate\Http\RedirectResponse
+     * Proces:
+     * 1. Získam prihláseného používateľa
+     * 2. Ak má fotku, vymažem fyzický súbor zo storage
+     * 3. Nastavím stĺpec photo v databáze na NULL
+     * 4. Presmerujem späť s flash správou
      */
     public function deletePhoto()
     {
-        // Získanie aktuálne prihláseného používateľa z session
+        // Aktuálny používateľ
         $user = auth()->user();
 
-        // Kontrola, či používateľ má nahranutu profilovú fotku
-        // Ak photo je null alebo prázdny string, toto sa preskočí
+        // Ak má uloženú fotku, tak ju fyzicky odstránim
         if ($user->photo) {
-            // Storage facade - Laravel systém pre prácu so súbormi
-            // disk('public') = storage/app/public/
-            // delete() vymaže fyzický súbor (napr. profile_photos/abc123.jpg)
+
+            /**
+             * Storage::disk('public') → smeruje na storage/app/public/
+             * delete() → odstráni fyzický obrázok
+             */
             Storage::disk('public')->delete($user->photo);
 
-            // Aktualizácia databázy - nastavenie photo stĺpca na NULL
-            // SQL: UPDATE users SET photo = NULL WHERE id = $user->id
+            // Nastavím photo na null v databáze
             $user->update(['photo' => null]);
         }
 
-        // Redirect späť na edit-profile stránku
-        // with('success', ...) pridá flash správu do session (zobrazí sa raz)
-        return redirect()->route('edit-profile')
+        // Presmerovanie späť na editáciu profilu s úspešnou hláškou
+        return redirect()
+            ->route('edit-profile')
             ->with('success', 'Profile photo deleted successfully.');
     }
 }

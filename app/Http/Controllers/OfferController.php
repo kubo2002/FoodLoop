@@ -10,17 +10,26 @@ use Illuminate\Support\Facades\Storage;
 
 class OfferController extends Controller
 {
-    // index() – zobrazí všetky kategórie ponúk.
-    // Toto je úvodná obrazovka sekcie Ponuky – používateľ si vyberie kategóriu.
+    /**
+     * index()
+     * -------
+     * Zobrazí úvodnú stránku sekcie Ponuky.
+     * Na tejto stránke si používateľ vyberá kategóriu.
+     * Ponuky sa nezobrazujú hneď – načítavajú sa dynamicky cez AJAX.
+     */
     public function index()
     {
         $categories = Category::all();
         return view('offers.index', compact('categories'));
     }
 
-    // byCategory() – AJAX endpoint.
-    // Na základe ID kategórie vráti HTML partial s ponukami danej kategórie.
-    // Používam to na dynamické načítanie ponúk bez reloadu stránky.
+    /**
+     * byCategory()
+     * ------------
+     * AJAX endpoint.
+     * Na základe ID kategórie vráti HTML partial s ponukami.
+     * Používam ho pri kliknutí na kategóriu → stránka sa nerefreshuje.
+     */
     public function byCategory($id)
     {
         $offers = Offer::where('category_id', $id)
@@ -30,23 +39,34 @@ class OfferController extends Controller
         return view('offers._list', compact('offers'));
     }
 
-    // create() – formulár pre vytvorenie novej ponuky.
-    // Môže to urobiť iba donor, takže najprv kontrolujem rolu.
+    /**
+     * create()
+     * --------
+     * Zobrazí formulár pre vytvorenie novej ponuky.
+     * Prístup má len používateľ s rolou "donor".
+     */
     public function create()
     {
-        $this->authorizeDonor(); // overí, či má používateľ rolu donor
-        $categories = Category::all(); // potrebujem ich do selectu
+        $this->authorizeDonor();
+        $categories = Category::all();
 
         return view('offers.create', compact('categories'));
     }
 
-    // store() – ukladá novú ponuku do databázy.
+    /**
+     * store()
+     * -------
+     * Spracovanie vytvorenia novej ponuky:
+     * - validácia
+     * - uloženie obrázka
+     * - uloženie ponuky do DB
+     * - priradenie používateľa ako autora
+     */
     public function store(Request $request)
     {
         $this->authorizeDonor();
 
-        // Validácia vstupov z formulára.
-        // Kontrolujem povinné polia, typu inputov a veľkosť obrázka.
+        // Server-side validácia vstupov
         $validated = $request->validate([
             'title' => ['required', 'string', 'min:3'],
             'description' => ['required', 'string'],
@@ -56,38 +76,47 @@ class OfferController extends Controller
             'image' => ['nullable', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
         ]);
 
-        // Ak používateľ nahral fotku, uložím ju na disk (do storage/public/offers).
+        // Upload obrázka (ak bol pridaný)
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('offers', 'public');
         }
 
-        // Každá ponuka musí mať autora – aktuálne prihlásený donor.
+        // Každá ponuka musí mať autora (donora)
         $validated['user_id'] = Auth::id();
-        $validated['status'] = 'available'; // nová ponuka je vždy dostupná
+        $validated['status'] = 'available';
 
-        // Uložím ponuku do databázy.
+        // Uloženie novej ponuky do databázy
         Offer::create($validated);
 
         return redirect()->route('offers.index')
             ->with('success', 'Ponuka bola úspešne pridaná.');
     }
 
-    // show() – zobrazí detail jednej ponuky.
+    /**
+     * show()
+     * ------
+     * Detail jednej ponuky.
+     * Zobrazuje všetky informácie vrátane autora, obrázka a kategórie.
+     */
     public function show($id)
     {
         $offer = Offer::findOrFail($id);
         return view('offers.show', compact('offer'));
     }
 
-    // edit() – formulár pre úpravu existujúcej ponuky.
-    // Donor môže upravovať len svoje vlastné ponuky.
+    /**
+     * edit()
+     * ------
+     * Formulár na editáciu ponuky.
+     * Upraviť môže iba používateľ, ktorý ponuku vytvoril.
+     */
     public function edit($id)
     {
         $this->authorizeDonor();
 
         $offer = Offer::findOrFail($id);
 
-        // Ak nie som autor tejto ponuky → blokujem úpravu.
+        // Overenie, či je aktuálny používateľ autorom ponuky
         if ($offer->user_id !== Auth::id()) {
             abort(403);
         }
@@ -97,19 +126,24 @@ class OfferController extends Controller
         return view('offers.edit', compact('offer', 'categories'));
     }
 
-    // update() – uloží zmeny na ponuke
+    /**
+     * update()
+     * --------
+     * Uloží zmeny existujúcej ponuky.
+     * Prebieha rovnaká validácia ako pri create().
+     */
     public function update(Request $request, $id)
     {
         $this->authorizeDonor();
 
         $offer = Offer::findOrFail($id);
 
-        // opäť kontrolujem, či som autor
+        // Používateľ musí byť autorom ponuky
         if ($offer->user_id !== Auth::id()) {
             abort(403);
         }
 
-        // Validácia vstupov rovnako ako pri store()
+        // Validácia vstupov
         $validated = $request->validate([
             'title' => ['required', 'string', 'min:3'],
             'description' => ['required', 'string'],
@@ -119,46 +153,64 @@ class OfferController extends Controller
             'image' => ['nullable', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
         ]);
 
-        // Ak bola nahraná nová fotka, nahradím starú
+        // Nahratie novej fotky (prepíše starú)
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('offers', 'public');
         }
 
-        // Aktualizácia v databáze
+        // Uloženie zmien
         $offer->update($validated);
 
         return redirect()->route('offers.show', $offer->id)
             ->with('success', 'Ponuka bola úspešne upravená.');
     }
 
-    // destroy() – zmaže ponuku.
-    // Donor môže vymazať iba svoju vlastnú ponuku.
+    /**
+     * destroy()
+     * ---------
+     * Mazanie ponuky.
+     * Volá sa cez AJAX → vraciam JSON odpoveď.
+     * Pred zmazaním:
+     *   - overím rolu donora
+     *   - overím, či je používateľ autorom
+     *   - zmažem obrázok zo storage (ak existuje)
+     */
     public function destroy($id)
     {
         $this->authorizeDonor();
 
         $offer = Offer::findOrFail($id);
 
+        // Bezpečnostná kontrola – autor musí byť ten istý
         if ($offer->user_id !== Auth::id()) {
             return response()->json(['success' => false, 'error' => 'Unauthorized'], 403);
         }
 
-        // zmažeme fotku ak existuje
+        // Zmazanie obrázka zo storage
         if ($offer->image) {
             Storage::disk('public')->delete($offer->image);
         }
 
+        // Zmazanie ponuky z DB
         $offer->delete();
 
         return response()->json(['success' => true]);
     }
 
-    // authorizeDonor() – malá pomocná metóda.
-    // Umožní vstup iba používateľom s rolou donor.
+    /**
+     * authorizeDonor()
+     * ----------------
+     * Pomocná metóda na kontrolu prístupových práv.
+     * Donor môže:
+     *  - pridávať ponuky
+     *  - upravovať ponuky
+     *  - mazať ponuky
+     * Recipient NESMIE.
+     */
     private function authorizeDonor()
     {
         if (Auth::user()->role !== 'donor') {
-            abort(403); // recipient nesmie pridávať ani upravovať ponuky
+            abort(403);
         }
     }
 }

@@ -16,7 +16,7 @@
             {{-- Tlačidlo na stránku ponúk --}}
             <div class="text-center mt-4">
                 <a href="{{ route('offers.index') }}" class="btn btn-primary btn-lg">
-                    {{ __('messages.goToOffers') ?? 'Pozrieť ponuky' }}
+                    {{ __('messages.goToOffers')}}
                 </a>
             </div>
 

@@ -7,28 +7,42 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * User model reprezentuje jedného používateľa v databáze.
+ * Laravel automaticky pracuje s tabuľkou "users".
+ *
+ * Tento model komunikuje s authentikáciou, aktualizáciou profilu
+ * aj so vzťahmi v ponukách (user_id).
+ */
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * $fillable
+     * ----------
+     * Zoznam stĺpcov, ktoré môžu byť hromadne (mass-assigned) zapisované
+     * do databázy pomocou User::create() alebo $user->update().
      *
-     * @var list<string>
+     * Toto je bezpečnostný mechanizmus – aby som nezapisoval náhodné dáta,
+     * ktoré by nemali byť menené (napr. id, created_at...).
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'role',
-        'photo'
+        'name',      // meno používateľa
+        'email',     // email
+        'password',  // hash hesla
+        'role',      // rola: donor / recipient
+        'photo'      // cesta k profilovej fotke
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * $hidden
+     * -------
+     * Tieto atribúty sa nikdy NEVRACAJÚ v JSON odpovediach.
+     * Ani keď používam API, ani keď dumpujem model.
      *
-     * @var list<string>
+     * Je to dôležité pre bezpečnosť – nechcem vyzradiť hash hesla.
      */
     protected $hidden = [
         'password',
@@ -36,9 +50,17 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * casts()
+     * -------
+     * Definuje, ako má Laravel automaticky konvertovať určité stĺpce.
      *
-     * @return array<string, string>
+     * 'email_verified_at' => 'datetime'
+     *     - pri čítaní sa automaticky premení na Carbon objekt (dátum)
+     *
+     * 'password' => 'hashed'
+     *     - Laravel AUTOMATICKY zahashuje heslo pri ukladaní
+     *       (napr. ak použijem $user->update(['password' => 'heslo']))
+     *       → nemusím volať Hash::make()
      */
     protected function casts(): array
     {
@@ -47,4 +69,5 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
 }
