@@ -57,5 +57,6 @@ return [
     'back' => 'Späť',
     'save_changes' => 'Uložiť zmeny',
     'no_photo' => 'Žiadna fotka',
-    'goToOffers' => 'Zobraziť ponuky'
+    'goToOffers' => 'Zobraziť ponuky',
+    'offers' => 'Ponuky'
 ];

@@ -70,17 +70,23 @@ class ReservationController extends Controller
             $reservation->offer->save();
         }
 
+        // kvoli AJAX
+        if ($request->expectsJson()) {
+            return response()->json([
+                'ok' => true,
+                'status' => $reservation->status,
+            ]);
+        }
+
         return redirect()->route('reservations.index')->with('success', 'Rezervácia bola aktualizovaná.');
     }
 
     // delete (zrušiť rezerváciu)
-    public function destroy(Reservation $reservation)
+    public function destroy(Request $request, Reservation $reservation)
     {
         $this->authorizeRecipient();
 
-        if ($reservation->user_id !== auth()->id()) {
-            abort(403);
-        }
+        if ($reservation->user_id !== auth()->id()) abort(403);
 
         $offer = $reservation->offer;
 
@@ -90,7 +96,13 @@ class ReservationController extends Controller
             $offer->status = 'available';
             $offer->save();
         }
-        return redirect()->route('reservations.index')->with('success', 'Rezervácia bola odstránená.');
+
+        if ($request->expectsJson()) {
+            return response()->json(['ok' => true]);
+        }
+
+        return redirect()->route('reservations.index')
+            ->with('success', 'Rezervácia bola odstránená.');
     }
 }
 

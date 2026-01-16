@@ -23,7 +23,7 @@
     {{-- Vlastný JS súbor pre Client-side validaciu registračného formulára --}}
     <script src="{{ asset('js/register.js') }}"></script>
     {{-- Vlastný JS súbor pre pridanie ponuky do kosika  --}}
-    <script src="{{ asset('js/cart.js') }}"></script>
+    <script src="{{ asset('js/reservation.js') }}"></script>
     {{-- Vlastný JS súbor pre Client-side validaciu login formulára --}}
     <script src="{{ asset('js/login.js') }}"></script>
 
@@ -65,15 +65,21 @@
 
                 {{-- Ľavá strana navbaru - navigačné linky --}}
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
                     <li class="nav-item">
                         {{-- Link na domovskú stránku s prekladom --}}
                         <a class="nav-link active" href="{{ route('home') }}">{{ __('messages.home')}}</a>
                     </li>
 
-                    {{-- Link na zoznam rezervovanych položiek ak som v roli recipient --}}
+                    <li class="nav-item">
+                        {{-- Link na zoznam ponuk--}}
+                        <a class="nav-link active" href="{{ route('offers.index') }}">{{ __('messages.offers')}}</a>
+                    </li>
+
                     @if(auth()->check() && auth()->user()->role === 'recipient')
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('reservations.index') }}">Moje rezervácie</a>
+                            {{-- Link na zoznam rezervovanych položiek ak som v roli recipient --}}
+                            <a class="nav-link active" href="{{ route('reservations.index') }}">Moje rezervácie</a>
                         </li>
                     @endif
                 </ul>

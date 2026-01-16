@@ -1,33 +1,18 @@
-{{--
-    Ak v tejto kategórii nie sú žiadne ponuky,
-    zobrazím iba jednoduchý text.
---}}
+
 @if($offers->isEmpty())
     <p class="text-muted">{{ __('messages.categories_title') }}</p>
-
-
 @else
-    {{--
-        Ak ponuky existujú, vypíšem ich do bootstrapového gridu.
-        Každá ponuka je jedna kolónka (col-md-4).
-    --}}
     <div class="row">
-
         @foreach($offers as $offer)
-
+            @php
+                $isExpired = $offer->expiration_date && strtotime($offer->expiration_date) < strtotime(date('Y-m-d'));
+            @endphp
             {{--
-                Wrapper pre jednu ponuku.
-                ID offer-{id} používam kvôli AJAX mazaniu,
-                aby som vedel tento konkrétny prvok odstrániť z DOM-u.
-            --}}
+                Wrapper pre jednu ponuku.--}}
             <div class="col-md-4 mb-3" id="offer-{{ $offer->id }}">
                 <div class="card h-100 offer-card">
 
-                    {{--
-                        Obrázok ponuky:
-                        - ak existuje, zobrazím ho
-                        - ak nie, zobrazím sivé placeholder pozadie
-                    --}}
+                    {{--Obrázok ponuky:--}}
                     @if($offer->image)
                         <img src="{{ asset('storage/' . $offer->image) }}"
                              class="card-img-top"
@@ -41,21 +26,16 @@
                         {{-- Názov ponuky --}}
                         <h5 class="card-title offer-title">{{ $offer->title }}</h5>
 
-                        {{--
-                            Popis skrátený na 100 znakov.
-                            Funkcia Str::limit() pochádza z Laravel helperov.
-                        --}}
+
                         <p class="card-text text-muted" style="font-size: 0.9rem;">
                             {{ Str::limit($offer->description, 100) }}
                         </p>
 
-                        {{--
-                            Základné detaily: lokalita a expirácia.
-                            Využívam preklady z messages.php.
-                        --}}
+
                         <p class="offer-meta">
                             {{ __('messages.location') }} <strong>{{ $offer->location }}</strong><br>
                             {{ __('messages.expiration') }} <strong>{{ $offer->expiration_date }}</strong>
+                            <strong class="{{ $isExpired ? 'text-danger' : '' }}">Expirované</strong>
                         </p>
 
 
@@ -65,10 +45,6 @@
                         </a>
 
 
-                        {{--
-                            Donor môže upraviť alebo vymazať iba VLASTNÉ ponuky.
-                            Preto kontrolujem, či autor ponuky = aktuálne prihlásený user.
-                        --}}
                         @if(auth()->id() === $offer->user_id)
 
                             {{-- Tlačidlo na úpravu ponuky --}}
@@ -76,12 +52,7 @@
                                 {{ __('messages.edit') }}
                             </a>
 
-                            {{--
-                                DELETE tlačidlo pre AJAX mazanie.
-                                - type="button" je kritické → aby sa neodosielal žiadny form
-                                - data-id obsahuje ID ponuky
-                                - .delete-offer používa JS (offers.js), ktorý vykoná AJAX delete
-                            --}}
+                            {{--DELETE tlačidlo pre AJAX mazanie.--}}
                             <button
                                 type="button"
                                 class="btn btn-danger btn-sm delete-offer btn-custom"
@@ -93,13 +64,29 @@
 
                         {{-- tlacidlo pre vlozenie ponuky do kosika --}}
                         @if(auth()->user()->role === 'recipient' && $offer->status === 'available')
-                            <button
-                                type="button"
-                                class="btn btn-success btn-sm btn-custom"
-                                onclick="addToCart({{ $offer->id }})">
-                                Rezervovat
-                            </button>
+                            @if(!$isExpired)
+                                <button type="button"
+                                        class="btn btn-success btn-sm btn-custom"
+                                        onclick="addToCart(this, {{ $offer->id }})">
+                                    Rezervovať
+                                </button>
+                            @elseif($isExpired)
+                                <button type="button"
+                                        class="btn btn-secondary btn-sm btn-custom"
+                                        disabled
+                                        title="Ponuka je expirovaná">
+                                    Rezervovať
+                                </button>
+                            @else
+                                <button type="button"
+                                        class="btn btn-secondary btn-sm btn-custom"
+                                        disabled
+                                        title="Ponuka už bola rezervovaná">
+                                    Rezervované
+                                </button>
+                            @endif
                         @endif
+
                     </div>
                 </div>
             </div>

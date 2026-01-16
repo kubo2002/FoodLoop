@@ -56,5 +56,6 @@ return [
     'back' => 'Back',
     'save_changes' => 'Save Changes',
     'no_photo' => 'No photo',
-    'goToOffers' => 'View offers'
+    'goToOffers' => 'View offers',
+    'offers' => 'Offers'
 ];

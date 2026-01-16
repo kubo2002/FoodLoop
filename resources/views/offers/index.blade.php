@@ -7,14 +7,7 @@
         <h2 class="mb-4">{{ __('messages.categories_title') }}</h2>
 
 
-        {{--
-            GRID kategórií
-            -------------------
-            Tu sa zobrazia všetky kategórie z databázy.
-            Každá "karta" kategórie má class="category-card" a data-category-id.
-            JavaScript (categories.js) na tieto karty počúva a po kliknutí
-            načíta ponuky danej kategórie cez AJAX.
-        --}}
+        {{--GRID kategórií--}}
         <div class="row">
             @foreach($categories as $category)
                 <div class="col-md-4 mb-3">
@@ -30,12 +23,7 @@
         </div>
 
 
-        {{--
-            Tlačidlo pre pridanie ponuky
-            -------------------------------
-            Zobrazí sa iba používateľovi s rolou "donor".
-            Recipients nemôžu vytvárať ponuky, iba ich prijímať.
-        --}}
+        {{--Tlačidlo pre pridanie ponuky--}}
         @if(auth()->user()->role === 'donor')
             <div class="text-end mb-3">
                 <a href="{{ route('offers.create') }}" class="btn btn-success">
@@ -51,13 +39,7 @@
         <h3 class="mt-4 mb-3">{{ __('messages.offers_title') }}</h3>
 
 
-        {{--
-            WRAPPER PRE AJAX OBSAH
-            --------------------------
-            Do tohto <div> prvku sa vloží partial _list.blade.php.
-            categories.js vykoná AJAX fetch podľa vybratej kategórie
-            a nahradí obsah práve v tomto wrapperi.
-        --}}
+        {{--WRAPPER PRE AJAX OBSAH--}}
         <div id="offers-wrapper" class="mt-3">
             {{-- Text, ktorý sa zobrazí predtým, než si používateľ vyberie kategóriu --}}
             <p class="text-muted">{{ __('messages.select_category') }}</p>

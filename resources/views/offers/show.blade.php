@@ -10,12 +10,7 @@
 
         <div class="card shadow-sm p-4">
 
-            {{--
-                OBRÁZOK PONUKY
-                ----------------
-                Ak má ponuka nahranú fotku → zobrazím ju.
-                Ak nie → zobrazím sivý placeholder box.
-            --}}
+            {{--OBRÁZOK PONUKY--}}
             @if($offer->image)
                 <img src="{{ asset('storage/' . $offer->image) }}"
                      class="img-fluid rounded mb-4"
@@ -25,7 +20,9 @@
                      style="height: 250px; border-radius: 8px;"></div>
             @endif
 
-
+            @php
+                $isExpired = $offer->expiration_date && strtotime($offer->expiration_date) < strtotime(date('Y-m-d'));
+            @endphp
             {{-- Názov ponuky --}}
             <h2 class="mb-3">{{ $offer->title }}</h2>
 
@@ -36,16 +33,7 @@
 
             <hr>
 
-            {{--
-                INFO SEKCIA PONUKY
-                --------------------
-                Zobrazuje základné údaje o ponuke:
-                - kategória
-                - lokalita
-                - expiracia
-                - autor ponuky
-                - status (preklady)
-            --}}
+            {{--INFO SEKCIA PONUKY--}}
             <div class="mt-3" style="font-size: 1rem;">
                 <p>
                     <strong>{{ __('messages.category') }} :</strong>
@@ -60,6 +48,7 @@
                 <p>
                     <strong>{{ __('messages.expiration') }}</strong>
                     {{ $offer->expiration_date ?? 'neuvedené' }}
+                    <strong class="{{ $isExpired ? 'text-danger' : '' }}">Expirované</strong>
                 </p>
 
                 <p>
@@ -75,15 +64,7 @@
 
             <hr>
 
-            {{--
-                Tlačidlá na úpravu a zmazanie ponuky
-                --------------------------------------
-                Zobrazia sa iba vtedy, ak:
-                - je používateľ prihlásený
-                - má rolu donor
-                - je autorom ponuky
-                Kontrolu robí aj backend, ale frontend to skrýva.
-            --}}
+            {{--Tlačidlá na úpravu a zmazanie ponuky--}}
             @if(auth()->id() === $offer->user_id)
                 <div class="mt-3 d-flex gap-2">
 
@@ -93,11 +74,7 @@
                         Upraviť
                     </a>
 
-                    {{--
-                        Tlačidlo DELETE pre AJAX mazanie.
-                        Typ musí byť button → aby sa neodosielal žiadny form.
-                        JS z offers.js spracuje mazanie.
-                    --}}
+                    {{--Tlačidlo DELETE pre AJAX mazanie.--}}
                     <button
                         type="button"
                         class="btn btn-danger delete-offer"
