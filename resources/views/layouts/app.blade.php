@@ -70,8 +70,12 @@
                         <a class="nav-link active" href="{{ route('home') }}">{{ __('messages.home')}}</a>
                     </li>
 
-                    {{-- Rezerva pre budúce menu položky --}}
-                    {{-- sem potom doplníme ďalšie (Ponuky, Kontakt...) --}}
+                    {{-- Link na zoznam rezervovanych položiek ak som v roli recipient --}}
+                    @if(auth()->check() && auth()->user()->role === 'recipient')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('reservations.index') }}">Moje rezervácie</a>
+                        </li>
+                    @endif
                 </ul>
 
                 {{-- Pravá strana navbaru --}}

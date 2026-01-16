@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OfferController;
-use App\Http\Controllers\CartController;
+use App\Http\Controllers\ReservationController;
 
 // register
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register.show');
@@ -63,9 +63,10 @@ Route::get('/debug-session', function () {
     return session()->all();
 });
 
-// reservation
+// reservation CRUD
 Route::middleware(['auth'])->group(function () {
-    Route::post('/cart/add/{offer}', [CartController::class, 'add'])->name('cart.add');
-    Route::delete('/cart/remove/{offer}', [CartController::class, 'remove'])->name('cart.remove');
-    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::get('/my-reservations', [ReservationController::class, 'index'])->name('reservations.index');
+    Route::post('/cart/add/{offer}', [ReservationController::class, 'store'])->name('reservations.store');
+    Route::patch('/reservations/{reservation}', [ReservationController::class, 'update'])->name('reservations.update');
+    Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
 });
