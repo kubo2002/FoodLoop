@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OfferController;
+use App\Http\Controllers\CartController;
 
 // register
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register.show');
@@ -62,3 +63,9 @@ Route::get('/debug-session', function () {
     return session()->all();
 });
 
+// reservation
+Route::middleware(['auth'])->group(function () {
+    Route::post('/cart/add/{offer}', [CartController::class, 'add'])->name('cart.add');
+    Route::delete('/cart/remove/{offer}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+});

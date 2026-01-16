@@ -89,15 +89,20 @@
                                 {{ __('messages.delete') }}
                             </button>
 
-                            </a>
+                        @endif
 
-
+                        {{-- tlacidlo pre vlozenie ponuky do kosika --}}
+                        @if(auth()->user()->role === 'recipient' && $offer->status === 'available')
+                            <button
+                                type="button"
+                                class="btn btn-success btn-sm btn-custom"
+                                onclick="addToCart({{ $offer->id }})">
+                                Rezervovat
+                            </button>
                         @endif
                     </div>
-
                 </div>
             </div>
         @endforeach
-
     </div>
 @endif

@@ -60,32 +60,6 @@
                     <input type="email" name="email" class="form-control"
                            value="{{ old('email', auth()->user()->email) }}">
                 </div>
-
-                {{-- Select pre výber role (donor/recipient) --}}
-                <div class="mb-3 text-start">
-                    <label class="form-label">{{ __('messages.role') }}</label>
-                    {{-- @error pridá Bootstrap triedu 'is-invalid' ak je validačná chyba --}}
-                    <select name="role" class="form-select @error('role') is-invalid @enderror" required>
-                        {{--
-                            Dynamické nastavenie selected atribútu:
-                            - old('role') vráti hodnotu ak bola validačná chyba
-                            - auth()->user()->role je aktuálna rola z databázy
-                            - selected sa pridá len k option, ktorá sa zhoduje s aktuálnou rolou
-                        --}}
-                        <option value="donor" {{ old('role', auth()->user()->role) == 'donor' ? 'selected' : '' }}>
-                            {{ __('messages.donor') }}
-                        </option>
-                        <option value="recipient" {{ old('role', auth()->user()->role) == 'recipient' ? 'selected' : '' }}>
-                            {{ __('messages.recipient') }}
-                        </option>
-                    </select>
-
-                    {{-- Zobrazenie validačnej chyby pre role, ak existuje --}}
-                    @error('role')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
                 {{-- Submit tlačidlo --}}
                 <button class="btn btn-success w-100 mt-2">{{ __('messages.saveChanges')}}</button>
             </form>

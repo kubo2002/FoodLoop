@@ -22,8 +22,9 @@
     <link rel="stylesheet" href="{{ asset('css/offer.css') }}">
     {{-- Vlastný JS súbor pre Client-side validaciu registračného formulára --}}
     <script src="{{ asset('js/register.js') }}"></script>
-
-    {{-- Vlastný JS súbor pre Client-side validaciu registračného formulára --}}
+    {{-- Vlastný JS súbor pre pridanie ponuky do kosika  --}}
+    <script src="{{ asset('js/cart.js') }}"></script>
+    {{-- Vlastný JS súbor pre Client-side validaciu login formulára --}}
     <script src="{{ asset('js/login.js') }}"></script>
 
     {{-- Pridanie prekladov do js --}}
