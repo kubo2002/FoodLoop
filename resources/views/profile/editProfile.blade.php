@@ -13,6 +13,20 @@
                 <i class="bi bi-arrow-left"></i> {{ __('messages.myProfile') }}
             </a>
 
+            {{-- Flash správy (úspech/chyba) --}}
+            @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+            @if($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             {{-- Zobrazenie aktuálnej profilovej fotky --}}
             <div class="photo-wrapper" id="profile-photo-wrapper">
                 <img src="{{ auth()->user()->photo

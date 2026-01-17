@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\Request;
+use App\Http\Requests\UpdateProfileRequest;
 
 class HomeController extends Controller
 {
@@ -49,20 +49,20 @@ class HomeController extends Controller
      * Používam server-side validáciu cez $request->validate(),
      * aby boli údaje skontrolované aj na backend úrovni.
      */
-    public function updateProfile(Request $request) {
+    public function updateProfile(UpdateProfileRequest $request) {
 
         // Získanie aktuálne prihláseného používateľa
         $user = auth()->user();
 
-        // Validácia údajov – Laravel automaticky vyhodí chybu pri neplatných údajoch
-        $validated = $request->validate([
-            'name'  => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id, // email musí byť unikátny okrem aktuálneho usera
-            'role'  => 'required|in:donor,recipient',
-        ]);
+        // Validácia údajov – teraz cez Form Request triedu
+        $validated = $request->validated();
 
         // Ak používateľ nahráva novú fotku → uložíme ju do storage
         if ($request->hasFile('photo')) {
+            // Zmaž starú fotku, ak existuje
+            if (!empty($user->photo)) {
+                Storage::disk('public')->delete($user->photo);
+            }
 
             /**
              * Upload logika:

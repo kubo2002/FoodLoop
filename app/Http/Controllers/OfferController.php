@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Offer;
 use App\Models\Category;
-use Illuminate\Http\Request;
+use App\Http\Requests\OfferStoreRequest;
+use App\Http\Requests\OfferUpdateRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -62,19 +63,12 @@ class OfferController extends Controller
      * - uloženie ponuky do DB
      * - priradenie používateľa ako autora
      */
-    public function store(Request $request)
+    public function store(OfferStoreRequest $request)
     {
         $this->authorizeDonor();
 
-        // Server-side validácia vstupov
-        $validated = $request->validate([
-            'title' => ['required', 'string', 'min:3'],
-            'description' => ['required', 'string'],
-            'expiration_date' => ['nullable', 'date'],
-            'location' => ['required', 'string', 'max:255'],
-            'category_id' => ['required', 'exists:categories,id'],
-            'image' => ['nullable', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
-        ]);
+        // Server-side validácia vstupov cez Form Request
+        $validated = $request->validated();
 
         // Upload obrázka (ak bol pridaný)
         if ($request->hasFile('image')) {
@@ -132,7 +126,7 @@ class OfferController extends Controller
      * Uloží zmeny existujúcej ponuky.
      * Prebieha rovnaká validácia ako pri create().
      */
-    public function update(Request $request, $id)
+    public function update(OfferUpdateRequest $request, $id)
     {
         $this->authorizeDonor();
 
@@ -143,18 +137,15 @@ class OfferController extends Controller
             abort(403);
         }
 
-        // Validácia vstupov
-        $validated = $request->validate([
-            'title' => ['required', 'string', 'min:3'],
-            'description' => ['required', 'string'],
-            'expiration_date' => ['nullable', 'date'],
-            'location' => ['required', 'string', 'max:255'],
-            'category_id' => ['required', 'exists:categories,id'],
-            'image' => ['nullable', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
-        ]);
+        // Validácia vstupov cez Form Request
+        $validated = $request->validated();
 
         // Nahratie novej fotky (prepíše starú)
         if ($request->hasFile('image')) {
+            // Zmazanie starej fotky, ak existuje
+            if (!empty($offer->image)) {
+                Storage::disk('public')->delete($offer->image);
+            }
             $validated['image'] = $request->file('image')->store('offers', 'public');
         }
 
