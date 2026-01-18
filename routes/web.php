@@ -69,4 +69,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/cart/add/{offer}', [ReservationController::class, 'store'])->name('reservations.store');
     Route::patch('/reservations/{reservation}', [ReservationController::class, 'update'])->name('reservations.update');
     Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
+
+    // donor-only: my offers list
+    Route::get('/my-offers', [OfferController::class, 'myOffers'])->name('offers.mine');
 });

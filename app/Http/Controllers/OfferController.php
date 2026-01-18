@@ -12,6 +12,22 @@ use Illuminate\Support\Facades\Storage;
 class OfferController extends Controller
 {
     /**
+     * Donor – Moje ponuky
+     * --------------------
+     * Zobrazí všetky ponuky vytvorené aktuálne prihláseným donorom.
+     */
+    public function myOffers()
+    {
+        $this->authorizeDonor();
+
+        $offers = Offer::where('user_id', Auth::id())
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('offers.my_offers', compact('offers'));
+    }
+
+    /**
      * index()
      * -------
      * Zobrazí úvodnú stránku sekcie Ponuky.

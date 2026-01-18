@@ -33,19 +33,41 @@ class ReservationController extends Controller
     {
         $this->authorizeRecipient();
 
+        // Nemožno rezervovať vlastnú ponuku
+        if ($offer->user_id === auth()->id()) {
+            return response()->json(['ok' => false, 'message' => 'Nemôžeš rezervovať vlastnú ponuku.'], 403);
+        }
+
+        // Skontroluj expiráciu (ponuka po dátume expirácie je nedostupná)
+        if ($offer->expiration_date && $offer->expiration_date->lt(now()->startOfDay())) {
+            return response()->json(['ok' => false, 'message' => 'Ponuka je expirovaná.'], 409);
+        }
+
+        // Ponuka musí byť dostupná
         if ($offer->status !== 'available') {
             return response()->json(['ok' => false, 'message' => 'Ponuka nie je dostupná.'], 409);
         }
 
+        // Zisti, či už mám aktívnu rezerváciu tejto ponuky
+        $existing = Reservation::where('user_id', auth()->id())
+            ->where('offer_id', $offer->id)
+            ->whereIn('status', ['reserved', 'picked_up'])
+            ->first();
+        if ($existing) {
+            return response()->json(['ok' => false, 'message' => 'Túto ponuku už máš rezervovanú.'], 409);
+        }
+
+        // Vytvor alebo aktualizuj rezerváciu na "reserved"
         Reservation::updateOrCreate(
             ['user_id' => auth()->id(), 'offer_id' => $offer->id],
             ['status' => 'reserved']
         );
 
+        // Uzamkni ponuku pre ostatných
         $offer->status = 'reserved';
         $offer->save();
 
-        return response()->json(['ok' => true]);
+        return response()->json(['ok' => true, 'message' => 'Ponuka bola rezervovaná.']);
     }
 
     // update statusu
