@@ -27,10 +27,8 @@
     {{-- Vlastný JS súbor pre Client-side validaciu login formulára --}}
     <script src="{{ asset('js/login.js') }}"></script>
 
-    {{-- Pridanie prekladov do js --}}
-    <script>
-        window.translations = @json(__('messages'));
-    </script>
+    {{-- Preklady pre JS uložené v meta tagu (prečíta i18n.js) --}}
+    <meta name="app-translations" content='@json(__('messages'))'>
 
     {{-- Skripty pre AJAX volania nad ponukami --}}
     <script src="{{ asset('js/offer.js') }}"></script>
@@ -82,6 +80,14 @@
                             <a class="nav-link active" href="{{ route('reservations.index') }}">Moje rezervácie</a>
                         </li>
                     @endif
+
+                    @if(auth()->check() && auth()->user()->role === 'donor')
+                        <li class="nav-item">
+                            {{-- Link na zoznam mojich ponúk ak som v roli donor --}}
+                            <a class="nav-link active" href="{{ route('offers.mine') }}">Moje ponuky</a>
+                        </li>
+                    @endif
+
                 </ul>
 
                 {{-- Pravá strana navbaru --}}

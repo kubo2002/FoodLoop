@@ -1,11 +1,11 @@
 async function createReservation(button, offerId) {
-    console.log('addToCart clicked', offerId);
+    console.log('reserve clicked', offerId);
 
-    // tlacidlo pre rezervaciu zmeni farbu na sedu
+    // Dočasný UI stav
     button.disabled = true;
     button.classList.remove('btn-success');
     button.classList.add('btn-secondary');
-    button.innerText = 'Rezervované';
+    button.innerText = 'Ukladám...';
 
     const res = await fetch(`/cart/add/${offerId}`, {
         method: 'POST',
@@ -15,16 +15,24 @@ async function createReservation(button, offerId) {
         }
     });
 
-    console.log('response status:', res.status);
-
     const data = await res.json().catch(() => ({}));
-    console.log('response data:', data);
 
-    if (res.ok) {
-        alert('Ponuka bola uložená.');
+    if (res.ok && (data.ok === true || data.success === true)) {
+        button.innerText = 'Rezervované';
+        alert(data.message ?? 'Ponuka bola rezervovaná.');
     } else {
-        alert(data.message ?? 'Chyba pri ukladaní.');
+        // obnov tlačidlo, ak zlyhalo
+        button.disabled = false;
+        button.classList.remove('btn-secondary');
+        button.classList.add('btn-success');
+        button.innerText = 'Rezervovať';
+        alert(data.message ?? 'Chyba pri rezervovaní.');
     }
+}
+
+// alias kvôli existujúcemu HTML atribútu onclick="addToCart(...)"
+function addToCart(button, offerId) {
+    return createReservation(button, offerId);
 }
 
 function csrf() {

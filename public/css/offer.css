@@ -37,3 +37,31 @@
     opacity: 0.85;  /* mierne stmavenie */
     transform: scale(1.02); /* jemné zväčšenie pri hover */
 }
+
+/* 6. Detail obrázka ponuky – bez inline štýlov */
+.offer-detail-image {
+    max-height: 350px;
+    object-fit: cover;
+}
+.offer-detail-placeholder {
+    height: 250px;
+    border-radius: 8px;
+}
+
+/* 7. Textové bloky na detaile */
+.offer-description {
+    font-size: 1.1rem;
+}
+.offer-info {
+    font-size: 1rem;
+}
+
+/* 8. Obrázok v kartách (zoznam) */
+.card-img-top.offer-card-img {
+    height: 200px;
+    object-fit: cover;
+}
+.offer-card-placeholder {
+    height: 200px;
+    background: #eee;
+}

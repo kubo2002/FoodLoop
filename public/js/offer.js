@@ -43,7 +43,8 @@ function bindOfferDelete() {
                      * že ide o AJAX request a mal v controllery správnu odpoveď.
                      */
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                    'X-Requested-With': 'XMLHttpRequest'
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
                 }
             })
                 // Prevedenie odpovede na JSON
@@ -62,7 +63,12 @@ function bindOfferDelete() {
                          * bez reloadu stránky.
                          */
                         const card = document.getElementById(`offer-${id}`);
-                        if (card) card.remove();
+                        if (card) {
+                            card.remove();
+                        } else {
+                            // Sme pravdepodobne na detaile ponuky – presmeruj na Moje ponuky
+                            window.location.href = '/my-offers';
+                        }
                     } else {
                         alert("Nepodarilo sa vymazať ponuku.");
                     }
