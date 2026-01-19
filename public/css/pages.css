@@ -1,0 +1,83 @@
+.offer-card img {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+.offer-title {
+  font-weight: 700;
+  color: var(--primary);
+}
+.offer-meta {
+  font-size: .9rem;
+  color: var(--muted);
+}
+.offer-detail-image {
+  max-height: 350px;
+  object-fit: cover;
+}
+.offer-detail-placeholder {
+  height: 250px;
+  border-radius: 8px;
+  background: #eee;
+}
+.offer-card-placeholder {
+  height: 200px;
+  background: #eee;
+}
+.category-card.is-active {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+.profile-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+.profile-card {
+  background: #fff;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: var(--shadow);
+}
+.photo-wrapper {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.name {
+  margin-top: 20px;
+  font-weight: 600;
+  color: #2E7D32;
+}
+.email,
+.role {
+  margin: 5px 0;
+  color: #666;
+}
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.auth-page {
+  min-height: calc(100vh - 60px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+}
+.auth-card {
+  width: 100%;
+  max-width: 480px;
+}
+.pad { padding: 16px; }
