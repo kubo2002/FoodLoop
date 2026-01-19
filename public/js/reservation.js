@@ -3,7 +3,7 @@ async function createReservation(button, offerId) {
 
     // Dočasný UI stav
     button.disabled = true;
-    button.classList.remove('btn-success');
+    button.classList.remove('btn-primary');
     button.classList.add('btn-secondary');
     button.innerText = 'Ukladám...';
 
@@ -24,13 +24,12 @@ async function createReservation(button, offerId) {
         // obnov tlačidlo, ak zlyhalo
         button.disabled = false;
         button.classList.remove('btn-secondary');
-        button.classList.add('btn-success');
+        button.classList.add('btn-primary');
         button.innerText = 'Rezervovať';
         alert(data.message ?? 'Chyba pri rezervovaní.');
     }
 }
 
-// alias kvôli existujúcemu HTML atribútu onclick="addToCart(...)"
 function addToCart(button, offerId) {
     return createReservation(button, offerId);
 }
