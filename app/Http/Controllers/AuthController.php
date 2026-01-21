@@ -9,14 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    /**
-     * REGISTER – uloženie nového používateľa
-     *
-     * Táto metóda spracuje registračný formulár.
-     * Najskôr overujem (validujem) údaje, ktoré používateľ zadal.
-     * Validácia prebehne na strane servera – Laravel automaticky vygeneruje
-     * chybové hlášky a vráti ich späť do formulára.
-     */
+
     public function register(Request $request) {
 
         // Validácia vstupov
@@ -42,34 +35,19 @@ class AuthController extends Controller
     }
 
 
-    /**
-     * Zobrazí registračný formulár (view)
-     */
     public function showRegisterForm() {
         return view('auth.register');
     }
 
-    /**
-     * Zobrazí login formulár (view)
-     */
+
     public function showLoginForm() {
         return view('auth.login');
     }
 
 
-    /**
-     * LOGIN – prihlásenie používateľa
-     *
-     * Overujem, či je email a heslo správne.
-     * Pri chybe sa zobrazí vlastná hláška pomocou view().
-     */
     public function login(Request $request) {
 
-        /**
-         * Najprv prebehne serverová validácia vstupov.
-         * Ak email/heslo nie je vyplnené, Laravel automaticky zastaví metódu
-         * a vráti späť chybové hlášky.
-         */
+
         $validated = $request->validate([
             'email'    => 'required|email',
             'password' => 'required',
@@ -79,11 +57,7 @@ class AuthController extends Controller
             'password.required' => 'Heslo je povinné.'
         ]);
 
-        /**
-         * Pokus o prihlásenie.
-         * Auth::attempt() porovná email + hash hesla v DB.
-         * Ak je login správny, vráti true.
-         */
+
         if (Auth::attempt($validated)) {
 
             // Z bezpečnostných dôvodov zregenerujem session ID – ochrana proti session fixation útoku
@@ -93,12 +67,7 @@ class AuthController extends Controller
             return redirect()->route('home');
         }
 
-        /**
-         * Ak prihlásenie zlyhalo:
-         * - vráti sa späť login formulár
-         * - zobrazí preklad 'loginFailed'
-         * - starý email sa predvyplní, aby ho používateľ nemusel písať nanovo
-         */
+
         return view('auth.login', [
             'login_failed' => __('messages.loginFailed'),
             'old_email'    => $request->email
@@ -106,9 +75,6 @@ class AuthController extends Controller
     }
 
 
-    /**
-     * LOGOUT – odhlásenie používateľa
-     */
     public function logout(Request $request) {
 
         // Odhlásim používateľa

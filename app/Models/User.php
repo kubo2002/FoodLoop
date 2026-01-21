@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+// pomoc s AI
+
 /**
  * User model reprezentuje jedného používateľa v databáze.
  * Laravel automaticky pracuje s tabuľkou "users".

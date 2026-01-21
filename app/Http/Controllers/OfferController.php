@@ -11,11 +11,7 @@ use Illuminate\Support\Facades\Storage;
 
 class OfferController extends Controller
 {
-    /**
-     * Donor – Moje ponuky
-     * --------------------
-     * Zobrazí všetky ponuky vytvorené aktuálne prihláseným donorom.
-     */
+
     public function myOffers()
     {
         $this->authorizeDonor();
@@ -27,26 +23,13 @@ class OfferController extends Controller
         return view('offers.my_offers', compact('offers'));
     }
 
-    /**
-     * index()
-     * -------
-     * Zobrazí úvodnú stránku sekcie Ponuky.
-     * Na tejto stránke si používateľ vyberá kategóriu.
-     * Ponuky sa nezobrazujú hneď – načítavajú sa dynamicky cez AJAX.
-     */
+
     public function index()
     {
         $categories = Category::all();
         return view('offers.index', compact('categories'));
     }
 
-    /**
-     * byCategory()
-     * ------------
-     * AJAX endpoint.
-     * Na základe ID kategórie vráti HTML partial s ponukami.
-     * Používam ho pri kliknutí na kategóriu → stránka sa nerefreshuje.
-     */
     public function byCategory($id)
     {
         $offers = Offer::where('category_id', $id)
@@ -56,12 +39,6 @@ class OfferController extends Controller
         return view('offers._list', compact('offers'));
     }
 
-    /**
-     * create()
-     * --------
-     * Zobrazí formulár pre vytvorenie novej ponuky.
-     * Prístup má len používateľ s rolou "donor".
-     */
     public function create()
     {
         $this->authorizeDonor();
@@ -70,15 +47,6 @@ class OfferController extends Controller
         return view('offers.create', compact('categories'));
     }
 
-    /**
-     * store()
-     * -------
-     * Spracovanie vytvorenia novej ponuky:
-     * - validácia
-     * - uloženie obrázka
-     * - uloženie ponuky do DB
-     * - priradenie používateľa ako autora
-     */
     public function store(OfferStoreRequest $request)
     {
         $this->authorizeDonor();
@@ -102,24 +70,12 @@ class OfferController extends Controller
             ->with('success', 'Ponuka bola úspešne pridaná.');
     }
 
-    /**
-     * show()
-     * ------
-     * Detail jednej ponuky.
-     * Zobrazuje všetky informácie vrátane autora, obrázka a kategórie.
-     */
     public function show($id)
     {
         $offer = Offer::findOrFail($id);
         return view('offers.show', compact('offer'));
     }
 
-    /**
-     * edit()
-     * ------
-     * Formulár na editáciu ponuky.
-     * Upraviť môže iba používateľ, ktorý ponuku vytvoril.
-     */
     public function edit($id)
     {
         $this->authorizeDonor();
@@ -136,12 +92,6 @@ class OfferController extends Controller
         return view('offers.edit', compact('offer', 'categories'));
     }
 
-    /**
-     * update()
-     * --------
-     * Uloží zmeny existujúcej ponuky.
-     * Prebieha rovnaká validácia ako pri create().
-     */
     public function update(OfferUpdateRequest $request, $id)
     {
         $this->authorizeDonor();
@@ -172,16 +122,6 @@ class OfferController extends Controller
             ->with('success', 'Ponuka bola úspešne upravená.');
     }
 
-    /**
-     * destroy()
-     * ---------
-     * Mazanie ponuky.
-     * Volá sa cez AJAX → vraciam JSON odpoveď.
-     * Pred zmazaním:
-     *   - overím rolu donora
-     *   - overím, či je používateľ autorom
-     *   - zmažem obrázok zo storage (ak existuje)
-     */
     public function destroy($id)
     {
         $this->authorizeDonor();
@@ -204,16 +144,6 @@ class OfferController extends Controller
         return response()->json(['success' => true]);
     }
 
-    /**
-     * authorizeDonor()
-     * ----------------
-     * Pomocná metóda na kontrolu prístupových práv.
-     * Donor môže:
-     *  - pridávať ponuky
-     *  - upravovať ponuky
-     *  - mazať ponuky
-     * Recipient NESMIE.
-     */
     private function authorizeDonor()
     {
         if (Auth::user()->role !== 'donor') {
