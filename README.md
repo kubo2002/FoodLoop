@@ -94,7 +94,7 @@ docker exec -it foodloop_app php artisan key:generate
 docker exec -it foodloop_app php artisan migrate
 ```
 
-6. Build frontend assetov (ak používate Vite)
+6. Build frontend assetov 
 ```bash
 npm install
 npm run build
