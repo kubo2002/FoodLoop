@@ -1,134 +1,45 @@
 <!DOCTYPE html>
-{{-- Nastavenie jazyka stránky podľa aktuálnej lokalizácie --}}
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    {{-- Responsive meta tag pre mobilné zariadenia --}}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FoodLoop</title>
-
-    {{-- Načítanie Bootstrap CSS frameworku z CDN --}}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    {{-- Načítanie Bootstrap ikon --}}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet"/>
-    {{-- Vlastný CSS súbor pre profil --}}
-    <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
-    {{-- Vlastný CSS súbor pre prepínač jazykov --}}
-    <link rel="stylesheet" href="{{ asset('css/language-switcher.css') }}">
-    {{-- Vlastný CSS súbor pre dizajn karty jednotlivej ponuky --}}
-    <link rel="stylesheet" href="{{ asset('css/offer.css') }}">
-    {{-- Vlastný JS súbor pre Client-side validaciu registračného formulára --}}
-    <script src="{{ asset('js/register.js') }}"></script>
-    {{-- Vlastný JS súbor pre pridanie ponuky do kosika  --}}
-    <script src="{{ asset('js/reservation.js') }}"></script>
-    {{-- Vlastný JS súbor pre Client-side validaciu login formulára --}}
-    <script src="{{ asset('js/login.js') }}"></script>
-
-    {{-- Preklady pre JS uložené v meta tagu (prečíta i18n.js) --}}
+    <link rel="stylesheet" href="{{ asset('css/base.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/components.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/pages.css') }}">
     <meta name="app-translations" content='@json(__('messages'))'>
-
-    {{-- Skripty pre AJAX volania nad ponukami --}}
-    <script src="{{ asset('js/offer.js') }}"></script>
-    <script src="{{ asset('js/categories.js') }}"></script>
-
-    {{-- Vite pre kompiláciu CSS/JS (momentálne zakázané) --}}
-    {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="{{ asset('js/register.js') }}" defer></script>
+    <script src="{{ asset('js/reservation.js') }}" defer></script>
+    <script src="{{ asset('js/login.js') }}" defer></script>
+    <script src="{{ asset('js/offer.js') }}" defer></script>
+    <script src="{{ asset('js/categories.js') }}" defer></script>
 </head>
-{{-- Svetlo-šedé pozadie celej stránky --}}
-<body class="bg-light">
-
-    {{-- Navigačný bar --}}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-
-        {{-- Container pre navbar obsah --}}
-        <div class="container-fluid">
-
-            {{-- Logo / Názov aplikácie --}}
-            <a class="navbar-brand fw-bold" href="#">
-                FoodLoop
-            </a>
-
-            {{-- Hamburger menu tlačidlo pre mobilné zariadenia --}}
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            {{-- Obsah navbaru (kolapsovatený na mobiloch) --}}
-            <div class="collapse navbar-collapse" id="navbarContent">
-
-                {{-- Ľavá strana navbaru - navigačné linky --}}
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-                    <li class="nav-item">
-                        {{-- Link na domovskú stránku s prekladom --}}
-                        <a class="nav-link active" href="{{ route('home') }}">{{ __('messages.home')}}</a>
-                    </li>
-
-                    <li class="nav-item">
-                        {{-- Link na zoznam ponuk--}}
-                        <a class="nav-link active" href="{{ route('offers.index') }}">{{ __('messages.offers')}}</a>
-                    </li>
-
-                    @if(auth()->check() && auth()->user()->role === 'recipient')
-                        <li class="nav-item">
-                            {{-- Link na zoznam rezervovanych položiek ak som v roli recipient --}}
-                            <a class="nav-link active" href="{{ route('reservations.index') }}">Moje rezervácie</a>
-                        </li>
-                    @endif
-
-                    @if(auth()->check() && auth()->user()->role === 'donor')
-                        <li class="nav-item">
-                            {{-- Link na zoznam mojich ponúk ak som v roli donor --}}
-                            <a class="nav-link active" href="{{ route('offers.mine') }}">Moje ponuky</a>
-                        </li>
-                    @endif
-
-                </ul>
-
-                {{-- Pravá strana navbaru --}}
-                <ul class="navbar-nav ms-auto">
-                    {{-- Ikona profilu --}}
-                    <li class="nav-item d-flex align-items-center me-3">
-                        <a href="{{ route('profile') }}" class="nav-link">
-                            {{-- Bootstrap ikona pre profil --}}
-                            <i class="bi bi-person-circle fs-5"></i>
-                        </a>
-                    </li>
-
-                    {{-- Prepínač jazykov (SK/EN) --}}
-                    @php $lang = app()->getLocale(); @endphp {{-- Získanie aktuálneho jazyka --}}
-                    <li class="nav-item d-flex align-items-center">
-                        {{-- Slovenčina - aktívne tlačidlo ak je SK jazyk --}}
-                        <a href="{{ route('lang.switch', 'sk') }}"
-                           class="btn mx-1 language-btn {{ $lang == 'sk' ? 'btn-primary' : 'btn-outline-primary' }}"
-                           data-lang="sk">
-                            SK
-                        </a>
-                        {{-- Angličtina - aktívne tlačidlo ak je EN jazyk --}}
-                        <a href="{{ route('lang.switch', 'en') }}"
-                           class="btn mx-1 language-btn {{ $lang == 'en' ? 'btn-primary' : 'btn-outline-primary' }}"
-                           data-lang="en">
-                            EN
-                        </a>
-                    </li>
-                </ul>
+<body>
+<header class="header">
+    <div class="wrap header-inner">
+        <a class="brand" href="{{ route('home') }}">FoodLoop</a>
+        <nav class="nav">
+            <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'is-active' : '' }}">{{ __('messages.home') }}</a>
+            <a href="{{ route('offers.index') }}" class="{{ request()->routeIs('offers.*') ? 'is-active' : '' }}">{{ __('messages.offers') }}</a>
+            @if(auth()->check() && auth()->user()->role === 'recipient')
+                <a href="{{ route('reservations.index') }}" class="{{ request()->routeIs('reservations.*') ? 'is-active' : '' }}">Moje rezervácie</a>
+            @endif
+            @if(auth()->check() && auth()->user()->role === 'donor')
+                <a href="{{ route('offers.mine') }}" class="{{ request()->routeIs('offers.mine') ? 'is-active' : '' }}">Moje ponuky</a>
+            @endif
+            <a href="{{ route('profile') }}">Profil</a>
+            @php $lang = app()->getLocale(); @endphp
+            <div class="lang-switch">
+                <a href="{{ route('lang.switch', 'sk') }}" class="lang-btn {{ $lang == 'sk' ? 'is-active' : '' }}" aria-label="Switch to Slovak">SK</a>
+                <a href="{{ route('lang.switch', 'en') }}" class="lang-btn {{ $lang == 'en' ? 'is-active' : '' }}" aria-label="Switch to English">EN</a>
             </div>
-        </div>
-    </nav>
-
-{{-- Hlavný obsah stránky - sem sa vkladá obsah z podstránok --}}
+        </nav>
+    </div>
+</header>
 <main>
-    @yield('content') {{-- Blade direktíva pre vloženie obsahu z @section('content') --}}
+    @yield('content')
 </main>
-
-{{-- Načítanie externého JavaScript súboru pre profil --}}
-{{-- Externé JS súbory = lepšia organizácia kódu, možnosť cachovania prehliadačom --}}
-<script src="{{ asset('js/profile.js') }}"></script>
-
+<script src="{{ asset('js/profile.js') }}" defer></script>
 </body>
 </html>
