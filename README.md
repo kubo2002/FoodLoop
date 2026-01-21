@@ -51,14 +51,12 @@ DB_PASSWORD=secret
 
 5. Migrácie (a seedery, ak existujú)
 ```bash
-php artisan migrate
-# php artisan db:seed         # (voliteľné – ak projekt obsahuje seedery)
+php artisan migrate 
 ```
 
 6. Build frontend assetov (ak používate Vite)
 ```bash
 npm run build
-# alebo počas vývoja: npm run dev
 ```
 
 7. Spustenie lokálneho servera
@@ -94,7 +92,6 @@ docker exec -it foodloop_app php artisan key:generate
 5. Migrácie (a seedery)
 ```bash
 docker exec -it foodloop_app php artisan migrate
-# docker exec -it foodloop_app php artisan db:seed
 ```
 
 6. Build frontend assetov (ak používate Vite)
